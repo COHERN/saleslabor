@@ -280,7 +280,7 @@
     </div>
     <div class="hf">
       <span class="hf-label">WEEK ENDING</span>
-      <input class="hf-input" id="h-we" type="text" placeholder="MM/DD/YYYY" oninput="updatePrint()">
+      <input class="hf-input" id="h-we" type="date" oninput="updateDate();updatePrint()">
     </div>
   </div>
 
@@ -328,14 +328,14 @@
         </tr>
         <tr>
           <td>GROSS</td>
-          <td><input class="metric-input" id="ptd-gross-proj" placeholder="$0" oninput="calc('ptd-gross','dollar',true)"></td>
-          <td><input class="metric-input" id="ptd-gross-act"  placeholder="$0" oninput="calc('ptd-gross','dollar',true)"></td>
+          <td><input class="metric-input" id="ptd-gross-proj" placeholder="0.00%" oninput="calc('ptd-gross','pct',true)"></td>
+          <td><input class="metric-input" id="ptd-gross-act"  placeholder="0.00%" oninput="calc('ptd-gross','pct',true)"></td>
           <td class="var-cell" id="ptd-gross-var">—</td>
         </tr>
         <tr>
           <td>GAIN</td>
-          <td><input class="metric-input" id="ptd-gain-proj" placeholder="$0" oninput="calc('ptd-gain','dollar',true)"></td>
-          <td><input class="metric-input" id="ptd-gain-act"  placeholder="$0" oninput="calc('ptd-gain','dollar',true)"></td>
+          <td><input class="metric-input" id="ptd-gain-proj" placeholder="0.00%" oninput="calc('ptd-gain','pct',true)"></td>
+          <td><input class="metric-input" id="ptd-gain-act"  placeholder="0.00%" oninput="calc('ptd-gain','pct',true)"></td>
           <td class="var-cell" id="ptd-gain-var">—</td>
         </tr>
       </tbody>
@@ -429,6 +429,19 @@
     return parseFloat((document.getElementById(id)||{value:''}).value.replace(/[$,%\s]/g,'')) || 0;
   }
 
+  function updateDate() {
+    var dateInput = document.getElementById('h-we');
+    if (dateInput.value) {
+      var date = new Date(dateInput.value + 'T00:00:00');
+      var mm = (date.getMonth() + 1).toString().padStart(2, '0');
+      var dd = date.getDate().toString().padStart(2, '0');
+      var yy = date.getFullYear().toString().slice(-2);
+      document.getElementById('p-we').textContent = mm + '/' + dd + '/' + yy;
+    } else {
+      document.getElementById('p-we').textContent = '__________';
+    }
+  }
+
   function fmtD(n) {
     var abs = Math.abs(n);
     var s = abs >= 1000000 ? '$'+(abs/1000000).toFixed(2)+'M'
@@ -503,16 +516,17 @@
     setText('p-ptd-shrink-act',  fmtInput('ptd-shrink-act', '%'));
     setText('p-ptd-shrink-var',  document.getElementById('ptd-shrink-var').textContent);
 
-    setText('p-ptd-gross-proj',  fmtInput('ptd-gross-proj','$'));
-    setText('p-ptd-gross-act',   fmtInput('ptd-gross-act', '$'));
+    setText('p-ptd-gross-proj',  fmtInput('ptd-gross-proj','%'));
+    setText('p-ptd-gross-act',   fmtInput('ptd-gross-act', '%'));
     setText('p-ptd-gross-var',   document.getElementById('ptd-gross-var').textContent);
 
-    setText('p-ptd-gain-proj',   fmtInput('ptd-gain-proj','$'));
-    setText('p-ptd-gain-act',    fmtInput('ptd-gain-act', '$'));
+    setText('p-ptd-gain-proj',   fmtInput('ptd-gain-proj','%'));
+    setText('p-ptd-gain-act',    fmtInput('ptd-gain-act', '%'));
     setText('p-ptd-gain-var',    document.getElementById('ptd-gain-var').textContent);
   }
 
   function doPrint() {
+    updateDate();
     updatePrint();
     window.print();
   }
