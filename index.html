@@ -16,14 +16,13 @@
   .body { padding:28px 28px 80px; }
   .section { margin-bottom:28px; }
   .section-head { font-size:11px; font-weight:bold; letter-spacing:2px; color:var(--blue); border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:14px; }
-  .term { margin-bottom:10px; font-size:11px; }
-  .term strong { color:var(--text); }
-  .term span { color:var(--dim); }
   .tracker-card { border:1px solid var(--border); padding:16px 20px; margin-bottom:12px; }
   .tracker-name { font-weight:bold; font-size:13px; letter-spacing:1px; margin-bottom:4px; }
   .tracker-desc { color:var(--dim); font-size:11px; margin-bottom:10px; }
   .tracker-link { display:inline-block; padding:6px 16px; background:var(--blue); color:#fff; text-decoration:none; font-size:11px; letter-spacing:1px; }
   .tracker-link:hover { background:var(--ltblue); }
+  .tracker-link.outline { background:transparent; border:1px solid var(--blue); color:var(--blue); }
+  .tracker-link.outline:hover { background:var(--blue); color:#fff; }
   .footer { color:var(--dim); font-size:10px; text-align:center; margin-top:28px; padding-top:12px; border-top:1px solid var(--border); }
 </style>
 </head>
@@ -36,27 +35,7 @@
   <div class="body">
 
     <div class="section">
-      <div class="section-head">KEY TERMS</div>
-
-      <div class="term"><strong>SALES ID</strong><br><span>Auto-calculated % variance between Actual and Projection. Negative means running below plan.</span></div>
-      <div class="term"><strong>VAR (VARIANCE)</strong><br><span>Difference between Actual and Projection. Green = ahead of plan. Red = behind plan.</span></div>
-      <div class="term"><strong>LY (LAST YEAR)</strong><br><span>Same period from the prior year used for year-over-year comparison.</span></div>
-      <div class="term"><strong>YOY (YEAR OVER YEAR)</strong><br><span>How current performance compares to the same period last year.</span></div>
-      <div class="term"><strong>ACT STP %</strong><br><span>Actual Sales to Percent — each metric expressed as a % of total sales.</span></div>
-      <div class="term"><strong>WTD / QTD</strong><br><span>Week-to-Date / Quarter-to-Date — the period being measured.</span></div>
-      <div class="term"><strong>SHRINK (LINE 05C)</strong><br><span>Inventory loss from theft, waste, damage, or errors — expressed as % of sales.</span></div>
-      <div class="term"><strong>LABOR (LINE 19)</strong><br><span>Total payroll cost including wages and benefits — expressed as % of sales.</span></div>
-      <div class="term"><strong>COGS (LINE 04)</strong><br><span>Cost of Goods Sold — what was paid for the merchandise sold.</span></div>
-      <div class="term"><strong>MARKDOWNS (LINE 05a/b)</strong><br><span>Price reductions taken on merchandise to move inventory.</span></div>
-      <div class="term"><strong>EBITDA (LINE 40)</strong><br><span>Earnings Before Interest, Taxes, Depreciation &amp; Amortization — the bottom line gain.</span></div>
-      <div class="term"><strong>PROPER PRODUCTION</strong><br><span>% of fresh department production completed. Under 90% needs attention.</span></div>
-      <div class="term"><strong>PRE-SUB OOS %</strong><br><span>% of items substituted or out of stock before an order is filled. Over 3.7% means too many substitutions impacting customer experience.</span></div>
-      <div class="term"><strong>ON TIME HAND OFF</strong><br><span>% of orders handed off to the customer on time. Under 100% is bad.</span></div>
-      <div class="term"><strong>ON TIME TILLING</strong><br><span>% of orders completed on time. 90% means 10% of customer orders were late.</span></div>
-    </div>
-
-    <div class="section">
-      <div class="section-head">SELECT TRACKER</div>
+      <div class="section-head">TRACKERS</div>
 
       <div class="tracker-card">
         <div class="tracker-name">P&amp;L TRACKER</div>
@@ -74,6 +53,15 @@
         <div class="tracker-name">NOTES</div>
         <div class="tracker-desc">Print a blank college-ruled page with store number, date, and department header.</div>
         <a href="notes.html" class="tracker-link">OPEN NOTES</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">REFERENCE</div>
+      <div class="tracker-card">
+        <div class="tracker-name">GLOSSARY</div>
+        <div class="tracker-desc">Plain language definitions for every term used in this tracker.</div>
+        <a href="glossary.html" class="tracker-link outline">OPEN GLOSSARY</a>
       </div>
     </div>
 
