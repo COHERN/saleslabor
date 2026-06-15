@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lined Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  :root { --blue:#00529F; --ltblue:#009FE0; --text:#231F20; --dim:#777777; --border:#E0E0E0; --red:#D6232A; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#fff; color:var(--text); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; }
+  .screen { max-width:700px; margin:0 auto; }
+  .header { background:var(--blue); color:#fff; padding:16px 20px; }
+  .header-title { font-size:14px; font-weight:bold; letter-spacing:2px; }
+  .header-sub { font-size:10px; color:rgba(255,255,255,0.7); margin-top:2px; letter-spacing:1px; }
+  .nav { margin-top:10px; display:flex; gap:16px; flex-wrap:wrap; }
+  .nav-link { color:#fff; text-decoration:none; font-size:11px; letter-spacing:1px; }
+  .nav-link:hover { color:var(--ltblue); }
+  .back { display:block; color:#fff; text-decoration:none; font-size:11px; margin-bottom:8px; }
+
+  .body { padding:28px 20px 80px; }
+  .section-head { font-size:11px; font-weight:bold; letter-spacing:2px; color:var(--blue); border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:20px; }
+
+  .form-grid { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; margin-bottom:28px; }
+  .form-field { display:flex; flex-direction:column; gap:4px; }
+  .form-label { font-size:10px; color:var(--dim); letter-spacing:1px; }
+  .form-input { background:transparent; border:none; border-bottom:2px solid var(--dim); font-family:'Share Tech Mono','Courier New',monospace; font-size:16px; font-weight:bold; color:var(--text); padding:2px 4px 4px; outline:none; }
+  .form-input:focus { border-bottom-color:var(--ltblue); }
+  .form-input.required:invalid { border-bottom-color:var(--red); }
+  .w-sm { width:60px; }
+  .w-md { width:90px; }
+  .w-lg { width:140px; }
+
+  .btn { padding:10px 20px; border:none; background:var(--blue); color:#fff; font-family:'Share Tech Mono','Courier New',monospace; font-size:12px; cursor:pointer; letter-spacing:1px; }
+  .btn::before { content:'> '; }
+  .btn:hover { background:var(--ltblue); }
+
+  .preview-note { color:var(--dim); font-size:11px; margin-top:16px; }
+
+  .footer { color:var(--dim); font-size:10px; text-align:center; margin-top:28px; padding-top:12px; border-top:1px solid var(--border); }
+
+  /* PRINT */
+  .print-wrap { display:none; }
+
+  @media print {
+    @page { size:8.5in 11in; margin:0.5in 0.75in 0.5in 1in; }
+    body { font-family:'Courier New',monospace; font-size:10px; color:#000; }
+    .screen { max-width:100%; }
+    .header, .body, .footer { display:none; }
+    .print-wrap { display:block; }
+
+    .print-header { border-bottom:3px solid #000; padding-bottom:8px; margin-bottom:4px; }
+    .print-title { font-size:11px; font-weight:bold; letter-spacing:3px; margin-bottom:6px; }
+    .print-meta { display:flex; gap:0; justify-content:space-between; font-size:10px; }
+    .print-meta-item { display:flex; flex-direction:column; gap:1px; }
+    .print-meta-label { font-size:7px; letter-spacing:2px; color:#555; }
+    .print-meta-val { font-size:12px; font-weight:bold; letter-spacing:1px; border-bottom:1px solid #000; min-width:80px; padding-bottom:1px; }
+
+    .print-lines { margin-top:2px; }
+    .print-line { border-bottom:1px solid #a8c4e0; height:24px; margin:0; }
+    .print-line:nth-child(1) { border-bottom:1px solid #a8c4e0; margin-top:8px; }
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <div class="header">
+    <a class="back" href="index.html">< HOME</a>
+    <div class="header-title">LINED NOTES</div>
+    <div class="header-sub">PRINT BLANK LINED PAGE</div>
+    <div class="nav">
+      <a class="nav-link" href="pl-tracker.html">P&amp;L</a>
+      <a class="nav-link" href="daily.html">DAILY</a>
+      <a class="nav-link" href="lined-notes.html">LINED NOTES</a>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="section-head">PAGE INFO</div>
+
+    <div class="form-grid">
+      <div class="form-field">
+        <label class="form-label">MONTH</label>
+        <input class="form-input w-sm required" id="inp-month" maxlength="2" placeholder="MM" inputmode="numeric" type="text">
+      </div>
+      <div class="form-field">
+        <label class="form-label">DATE</label>
+        <input class="form-input w-sm required" id="inp-date" maxlength="2" placeholder="DD" inputmode="numeric" type="text">
+      </div>
+      <div class="form-field">
+        <label class="form-label">YEAR</label>
+        <input class="form-input w-md required" id="inp-year" maxlength="4" placeholder="YYYY" inputmode="numeric" type="text">
+      </div>
+      <div class="form-field">
+        <label class="form-label">STORE #</label>
+        <input class="form-input w-sm" id="inp-store" maxlength="4" placeholder="####" inputmode="numeric" type="text" oninput="saveStore()">
+      </div>
+      <div class="form-field">
+        <label class="form-label">DEPARTMENT</label>
+        <input class="form-input w-lg" id="inp-dept" placeholder="optional" type="text">
+      </div>
+    </div>
+
+    <button class="btn" onclick="doPrint()">PRINT LINED NOTES</button>
+    <div class="preview-note">Fill in Month, Date, and Year before printing.</div>
+
+    <div class="footer">Prints college-ruled lined page with header.</div>
+  </div>
+
+  <!-- PRINT OUTPUT -->
+  <div class="print-wrap">
+    <div class="print-header">
+      <div class="print-title">LINED NOTES</div>
+      <div class="print-meta">
+        <div class="print-meta-item">
+          <span class="print-meta-label">DATE</span>
+          <span class="print-meta-val" id="print-date-val">&nbsp;</span>
+        </div>
+        <div class="print-meta-item">
+          <span class="print-meta-label">STORE</span>
+          <span class="print-meta-val" id="print-store-val">&nbsp;</span>
+        </div>
+        <div class="print-meta-item">
+          <span class="print-meta-label">DEPARTMENT</span>
+          <span class="print-meta-val" id="print-dept-val">&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <div class="print-lines" id="print-lines"></div>
+  </div>
+
+</div>
+<script>
+  // Load saved store number
+  var saved = localStorage.getItem('store_num');
+  if (saved) document.getElementById('inp-store').value = saved;
+
+  // Auto-fill current year
+  document.getElementById('inp-year').value = new Date().getFullYear();
+
+  function saveStore() {
+    var v = document.getElementById('inp-store').value.replace(/\D/g,'').slice(0,4);
+    document.getElementById('inp-store').value = v;
+    localStorage.setItem('store_num', v);
+  }
+
+  function doPrint() {
+    var month = document.getElementById('inp-month').value.trim();
+    var date  = document.getElementById('inp-date').value.trim();
+    var year  = document.getElementById('inp-year').value.trim();
+    var store = document.getElementById('inp-store').value.trim();
+    var dept  = document.getElementById('inp-dept').value.trim();
+
+    if (!month || !date || !year) {
+      alert('Month, Date, and Year are required before printing.');
+      return;
+    }
+
+    // Build print header values
+    document.getElementById('print-date-val').textContent = month + '/' + date + '/' + year;
+    document.getElementById('print-store-val').textContent = store ? store : '____';
+    document.getElementById('print-dept-val').textContent = dept || '____________________';
+
+    // Generate lines — college ruled ~32 lines per page
+    var lines = '';
+    for (var i = 0; i < 34; i++) {
+      lines += '<div class="print-line"></div>';
+    }
+    document.getElementById('print-lines').innerHTML = lines;
+
+    document.title = 'Lined_Notes_' + month + '-' + date + '-' + year + (store ? '_Store' + store : '');
+    window.print();
+  }
+</script>
+</body>
+</html>
