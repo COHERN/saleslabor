@@ -70,32 +70,34 @@
   .footer { color: var(--dim); font-size: 10px; text-align: center; margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--border); }
 
   @media print {
-    body { font-size: 11px; }
-    .screen { padding: 0; }
-    .header { padding: 8px 14px; }
-    .header-title { font-size: 12px; }
+    @page { size: 8.5in 11in; margin: 0.4in; }
+    body { font-size: 10px; font-family: 'Courier New', monospace; }
+    .screen { padding: 0; max-width: 4.5in; }
+    .header { padding: 6px 0; background: none; color: #000; text-align: center; border-top: 2px solid #000; border-bottom: 2px solid #000; }
+    .header-title { font-size: 11px; font-weight: bold; letter-spacing: 3px; }
     .nav { display: none; }
     .back { display: none; }
-    .body { padding: 10px 14px; }
-    .section { margin-bottom: 12px; }
+    .body { padding: 6px 0; }
+    .section { margin-bottom: 10px; }
     .section:last-of-type { margin-bottom: 6px; }
-    .section-head { font-size: 10px; margin-bottom: 6px; }
+    .section-head { font-size: 9px; font-weight: bold; letter-spacing: 2px; border-bottom: 1px dashed #000; padding-bottom: 2px; margin-bottom: 4px; }
     .form-row, .form-field { display: none; }
-    .entry-table { font-size: 10px; }
-    .entry-table th { padding: 3px 6px 2px 0; font-size: 9px; }
-    .entry-table td { padding: 4px 6px 4px 0; }
-    .entry-var { font-size: 11px; }
+    .entry-table { font-size: 9px; width: 100%; }
+    .entry-table thead { display: none; }
+    .entry-table tbody tr { border: none; }
+    .entry-table td { padding: 2px 0; border: none; }
+    .entry-date { font-weight: bold; width: auto; font-size: 9px; padding-right: 8px; }
+    .entry-val { display: none; }
+    .entry-var { font-size: 10px; font-weight: bold; padding-left: 4px; }
+    .entry-del { display: none; }
     .btn { display: none; }
-    .footer { display: block !important; margin: 6px 0 0 0; padding: 0; border: none; text-align: left; color: var(--text); font-size: 10px; font-weight: bold; }
-    .footer::before { content: 'NOTES:'; display: block; margin-bottom: 4px; }
-    .footer::after {
-      content: '';
-      display: block;
-      border-bottom: 1px solid #ccc;
-      margin: 2px 0;
-      height: 14px;
-    }
-    .note-line { border-bottom: 1px solid #ccc; height: 14px; margin: 0; }
+    .footer { display: block; margin: 8px 0 0 0; padding: 0; border-top: 1px dashed #000; border-bottom: 1px dashed #000; text-align: left; color: #000; font-size: 9px; font-weight: bold; text-align: center; padding: 4px 0; }
+    .footer::before { content: 'NOTES'; display: block; margin-bottom: 2px; }
+    .footer::after { content: ''; display: none; }
+  }
+
+  @media print {
+    .receipt-line { border-bottom: 1px solid #000; height: 12px; margin: 1px 0; }
   }
 </style>
 </head>

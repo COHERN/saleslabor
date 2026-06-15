@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Period Tracker</title>
+<title>Shrink & Labor Tracker</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
@@ -44,7 +44,6 @@
   .form-input:focus, .form-select:focus { border-bottom-color: var(--ltblue); }
   .w-sm { width: 70px; }
   .w-md { width: 100px; }
-  .w-lg { width: 140px; }
 
   .entry-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
   .entry-table th { text-align: left; padding: 6px 10px 4px 0; color: var(--dim); font-weight: normal; font-size: 10px; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
@@ -52,7 +51,6 @@
   .entry-table tr:last-child td { border-bottom: 1px solid var(--border); }
 
   .entry-date { font-weight: bold; color: var(--blue); width: 90px; }
-  .entry-val { text-align: right; font-size: 11px; }
   .entry-var { text-align: right; font-weight: bold; font-size: 13px; }
   .entry-var.good { color: var(--good); }
   .entry-var.bad { color: var(--red); }
@@ -64,41 +62,10 @@
   .btn.secondary:hover { background: var(--blue); color: #fff; }
   .btn.danger { color: var(--red); border-color: var(--red); }
 
+  .note { color: var(--dim); font-size: 11px; margin: 10px 0; line-height: 1.5; }
   .empty { color: var(--dim); font-size: 12px; font-style: italic; padding: 20px 10px; text-align: center; }
 
-  .entry-notes { color: var(--dim); font-size: 11px; padding: 4px 10px 8px 0; font-style: italic; }
-
   .footer { color: var(--dim); font-size: 10px; text-align: center; margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--border); }
-
-  @media print {
-    @page { size: 8.5in 11in; margin: 0.4in; }
-    body { font-size: 10px; font-family: 'Courier New', monospace; }
-    .screen { padding: 0; max-width: 4.5in; }
-    .header { padding: 6px 0; background: none; color: #000; text-align: center; border-top: 2px solid #000; border-bottom: 2px solid #000; }
-    .header-title { font-size: 11px; font-weight: bold; letter-spacing: 3px; }
-    .nav { display: none; }
-    .back { display: none; }
-    .body { padding: 6px 0; }
-    .section { margin-bottom: 10px; }
-    .section:last-of-type { margin-bottom: 6px; }
-    .section-head { font-size: 9px; font-weight: bold; letter-spacing: 2px; border-bottom: 1px dashed #000; padding-bottom: 2px; margin-bottom: 4px; }
-    .form-row, .form-field { display: none; }
-    .entry-table { font-size: 9px; width: 100%; }
-    .entry-table thead { display: none; }
-    .entry-table tbody tr { border: none; }
-    .entry-table td { padding: 2px 0; border: none; }
-    .entry-date { font-weight: bold; width: auto; font-size: 9px; padding-right: 8px; }
-    .entry-val { display: none; }
-    .entry-var { font-size: 10px; font-weight: bold; padding-left: 4px; }
-    .btn { display: none; }
-    .footer { display: block; margin: 8px 0 0 0; padding: 0; border-top: 1px dashed #000; border-bottom: 1px dashed #000; text-align: left; color: #000; font-size: 9px; font-weight: bold; text-align: center; padding: 4px 0; }
-    .footer::before { content: 'NOTES'; display: block; margin-bottom: 2px; }
-    .footer::after { content: ''; display: none; }
-  }
-
-  @media print {
-    .receipt-line { border-bottom: 1px solid #000; height: 12px; margin: 1px 0; }
-  }
 </style>
 </head>
 <body>
@@ -107,10 +74,11 @@
 
   <div class="header">
     <a class="back" href="index.html" style="color:#fff;">HOME</a>
-    <div class="header-title">PERIOD TRACKER</div>
+    <div class="header-title">SHRINK & LABOR TRACKER</div>
     <div class="nav">
       <a class="nav-link" href="tracking.html">WEEKLY</a>
       <a class="nav-link" href="period.html">PERIOD</a>
+      <a class="nav-link" href="shrink-labor.html">SHRINK/LABOR</a>
     </div>
   </div>
 
@@ -137,10 +105,20 @@
         <div class="form-field">
           <label class="form-label">PERIOD TYPE</label>
           <select class="form-select" id="period" onchange="switchPeriod()" style="width:100px;font-size:13px;font-weight:bold;">
-            <option value="ptd">PTD</option>
+            <option value="wtd">WTD</option>
             <option value="qtd">QTD</option>
           </select>
         </div>
+      </div>
+    </div>
+
+    <!-- WHAT IS SHRINK/LABOR -->
+    <div class="section">
+      <div class="section-head">WHAT IS SHRINK & LABOR</div>
+      <div class="note">
+        <strong>SHRINK</strong> = Inventory loss (theft, waste, damage, errors) as % of sales<br>
+        <br>
+        <strong>LABOR</strong> = Total payroll cost (wages + benefits) as % of sales
       </div>
     </div>
 
@@ -160,61 +138,45 @@
       </div>
 
       <div style="border-top:1px solid var(--border);padding-top:10px;margin-bottom:10px;">
-        <div style="font-size:11px;color:var(--blue);font-weight:bold;margin-bottom:8px;">CURRENT YEAR SALES</div>
+        <div style="font-size:11px;color:var(--blue);font-weight:bold;margin-bottom:8px;">SHRINK</div>
         <div class="form-row">
           <div class="form-field">
-            <label class="form-label">PROJ</label>
-            <input class="form-input w-md" id="entry-cy-proj" placeholder="$0">
+            <label class="form-label">% PROJ</label>
+            <input class="form-input w-sm" id="entry-shrink-pct-proj" placeholder="0.00">
           </div>
           <div class="form-field">
-            <label class="form-label">ACT</label>
-            <input class="form-input w-md" id="entry-cy-act" placeholder="$0">
+            <label class="form-label">% ACT</label>
+            <input class="form-input w-sm" id="entry-shrink-pct-act" placeholder="0.00">
           </div>
-        </div>
-      </div>
-
-      <div style="border-top:1px solid var(--border);padding-top:10px;margin-bottom:10px;">
-        <div style="font-size:11px;color:var(--blue);font-weight:bold;margin-bottom:8px;">PRIOR YEAR SALES</div>
-        <div class="form-row">
           <div class="form-field">
-            <label class="form-label">PY ACTUAL</label>
-            <input class="form-input w-md" id="entry-py-act" placeholder="$0">
+            <label class="form-label">$ PROJ</label>
+            <input class="form-input w-md" id="entry-shrink-dol-proj" placeholder="$0">
+          </div>
+          <div class="form-field">
+            <label class="form-label">$ ACT</label>
+            <input class="form-input w-md" id="entry-shrink-dol-act" placeholder="$0">
           </div>
         </div>
       </div>
 
       <div style="border-top:1px solid var(--border);padding-top:10px;">
-        <div style="font-size:11px;color:var(--blue);font-weight:bold;margin-bottom:8px;">OTHER METRICS</div>
+        <div style="font-size:11px;color:var(--blue);font-weight:bold;margin-bottom:8px;">LABOR</div>
         <div class="form-row">
           <div class="form-field">
-            <label class="form-label">SHRINK PROJ %</label>
-            <input class="form-input w-sm" id="entry-shrink-proj" placeholder="0.00">
+            <label class="form-label">% PROJ</label>
+            <input class="form-input w-sm" id="entry-labor-pct-proj" placeholder="0.00">
           </div>
           <div class="form-field">
-            <label class="form-label">SHRINK ACT %</label>
-            <input class="form-input w-sm" id="entry-shrink-act" placeholder="0.00">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-field">
-            <label class="form-label">GROSS PROJ %</label>
-            <input class="form-input w-sm" id="entry-gross-proj" placeholder="0.00">
+            <label class="form-label">% ACT</label>
+            <input class="form-input w-sm" id="entry-labor-pct-act" placeholder="0.00">
           </div>
           <div class="form-field">
-            <label class="form-label">GROSS ACT %</label>
-            <input class="form-input w-sm" id="entry-gross-act" placeholder="0.00">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-field">
-            <label class="form-label">GAIN PROJ %</label>
-            <input class="form-input w-sm" id="entry-gain-proj" placeholder="0.00">
+            <label class="form-label">$ PROJ</label>
+            <input class="form-input w-md" id="entry-labor-dol-proj" placeholder="$0">
           </div>
           <div class="form-field">
-            <label class="form-label">GAIN ACT %</label>
-            <input class="form-input w-sm" id="entry-gain-act" placeholder="0.00">
+            <label class="form-label">$ ACT</label>
+            <input class="form-input w-md" id="entry-labor-dol-act" placeholder="$0">
           </div>
         </div>
       </div>
@@ -262,7 +224,7 @@
   }
 
   function getKey(dept, period) {
-    return 'period_' + dept + '_' + period;
+    return 'shrinklabor_' + dept + '_' + period;
   }
 
   function switchDept() {
@@ -290,15 +252,14 @@
       id: Date.now(),
       salesid: salesid,
       date: date,
-      cy_proj: parseNum(document.getElementById('entry-cy-proj').value),
-      cy_act: parseNum(document.getElementById('entry-cy-act').value),
-      py_act: parseNum(document.getElementById('entry-py-act').value),
-      shrink_proj: parseNum(document.getElementById('entry-shrink-proj').value),
-      shrink_act: parseNum(document.getElementById('entry-shrink-act').value),
-      gross_proj: parseNum(document.getElementById('entry-gross-proj').value),
-      gross_act: parseNum(document.getElementById('entry-gross-act').value),
-      gain_proj: parseNum(document.getElementById('entry-gain-proj').value),
-      gain_act: parseNum(document.getElementById('entry-gain-act').value),
+      shrink_pct_proj: parseNum(document.getElementById('entry-shrink-pct-proj').value),
+      shrink_pct_act: parseNum(document.getElementById('entry-shrink-pct-act').value),
+      shrink_dol_proj: parseNum(document.getElementById('entry-shrink-dol-proj').value),
+      shrink_dol_act: parseNum(document.getElementById('entry-shrink-dol-act').value),
+      labor_pct_proj: parseNum(document.getElementById('entry-labor-pct-proj').value),
+      labor_pct_act: parseNum(document.getElementById('entry-labor-pct-act').value),
+      labor_dol_proj: parseNum(document.getElementById('entry-labor-dol-proj').value),
+      labor_dol_act: parseNum(document.getElementById('entry-labor-dol-act').value),
     };
 
     var key = getKey(dept, period);
@@ -333,15 +294,14 @@
   function clearForm() {
     document.getElementById('entry-salesid').value = '';
     document.getElementById('entry-date').value = '';
-    document.getElementById('entry-cy-proj').value = '';
-    document.getElementById('entry-cy-act').value = '';
-    document.getElementById('entry-py-act').value = '';
-    document.getElementById('entry-shrink-proj').value = '';
-    document.getElementById('entry-shrink-act').value = '';
-    document.getElementById('entry-gross-proj').value = '';
-    document.getElementById('entry-gross-act').value = '';
-    document.getElementById('entry-gain-proj').value = '';
-    document.getElementById('entry-gain-act').value = '';
+    document.getElementById('entry-shrink-pct-proj').value = '';
+    document.getElementById('entry-shrink-pct-act').value = '';
+    document.getElementById('entry-shrink-dol-proj').value = '';
+    document.getElementById('entry-shrink-dol-act').value = '';
+    document.getElementById('entry-labor-pct-proj').value = '';
+    document.getElementById('entry-labor-pct-act').value = '';
+    document.getElementById('entry-labor-dol-proj').value = '';
+    document.getElementById('entry-labor-dol-act').value = '';
   }
 
   function render() {
@@ -356,39 +316,34 @@
       return;
     }
 
-    var html = '<table class="entry-table"><thead><tr><th>DATE</th><th class="entry-val">CY SALES</th><th class="entry-val">YoY</th><th class="entry-val">SHRINK</th><th class="entry-val">GROSS</th><th class="entry-val">GAIN</th><th></th></tr></thead><tbody>';
+    var html = '<table class="entry-table"><thead><tr><th>DATE</th><th class="entry-val">SHRINK %</th><th class="entry-val">SHRINK $</th><th class="entry-val">LABOR %</th><th class="entry-val">LABOR $</th><th></th></tr></thead><tbody>';
 
     entries.forEach(function(e) {
       var date = new Date(e.date + 'T00:00:00');
       var dateStr = (date.getMonth()+1).toString().padStart(2,'0') + '/' + date.getDate().toString().padStart(2,'0');
 
-      var cy_var = e.cy_act - e.cy_proj;
-      var cy_good = cy_var >= 0;
-      var cy_str = fmt$(cy_var);
+      var shrink_pct_var = e.shrink_pct_act - e.shrink_pct_proj;
+      var shrink_pct_good = shrink_pct_var <= 0;
+      var shrink_pct_str = fmtPts(shrink_pct_var);
 
-      var yoy_var = e.cy_act - e.py_act;
-      var yoy_good = yoy_var >= 0;
-      var yoy_str = fmt$(yoy_var);
+      var shrink_dol_var = e.shrink_dol_act - e.shrink_dol_proj;
+      var shrink_dol_good = shrink_dol_var <= 0;
+      var shrink_dol_str = fmt$(shrink_dol_var);
 
-      var shrink_var = e.shrink_act - e.shrink_proj;
-      var shrink_good = shrink_var <= 0;
-      var shrink_str = fmtPts(shrink_var);
+      var labor_pct_var = e.labor_pct_act - e.labor_pct_proj;
+      var labor_pct_good = labor_pct_var <= 0;
+      var labor_pct_str = fmtPts(labor_pct_var);
 
-      var gross_var = e.gross_act - e.gross_proj;
-      var gross_good = gross_var >= 0;
-      var gross_str = fmtPts(gross_var);
-
-      var gain_var = e.gain_act - e.gain_proj;
-      var gain_good = gain_var >= 0;
-      var gain_str = fmtPts(gain_var);
+      var labor_dol_var = e.labor_dol_act - e.labor_dol_proj;
+      var labor_dol_good = labor_dol_var <= 0;
+      var labor_dol_str = fmt$(labor_dol_var);
 
       html += '<tr>' +
         '<td class="entry-date">' + dateStr + '<br><span style="color:var(--dim);font-size:10px;">' + e.salesid + '</span></td>' +
-        '<td class="entry-var ' + (cy_good ? 'good' : 'bad') + '">' + cy_str + '</td>' +
-        '<td class="entry-var ' + (yoy_good ? 'good' : 'bad') + '">' + yoy_str + '</td>' +
-        '<td class="entry-var ' + (shrink_good ? 'good' : 'bad') + '">' + shrink_str + '</td>' +
-        '<td class="entry-var ' + (gross_good ? 'good' : 'bad') + '">' + gross_str + '</td>' +
-        '<td class="entry-var ' + (gain_good ? 'good' : 'bad') + '">' + gain_str + '</td>' +
+        '<td><div class="entry-var ' + (shrink_pct_good ? 'good' : 'bad') + '">' + shrink_pct_str + '</div><div style="font-size:10px;color:var(--dim);">' + fmtPts(e.shrink_pct_act) + '</div></td>' +
+        '<td><div class="entry-var ' + (shrink_dol_good ? 'good' : 'bad') + '">' + shrink_dol_str + '</div><div style="font-size:10px;color:var(--dim);">' + fmt$(e.shrink_dol_act) + '</div></td>' +
+        '<td><div class="entry-var ' + (labor_pct_good ? 'good' : 'bad') + '">' + labor_pct_str + '</div><div style="font-size:10px;color:var(--dim);">' + fmtPts(e.labor_pct_act) + '</div></td>' +
+        '<td><div class="entry-var ' + (labor_dol_good ? 'good' : 'bad') + '">' + labor_dol_str + '</div><div style="font-size:10px;color:var(--dim);">' + fmt$(e.labor_dol_act) + '</div></td>' +
         '<td><button class="btn secondary danger" onclick="deleteEntry(' + e.id + ')" style="padding:4px 10px;font-size:10px;">X</button></td>' +
         '</tr>';
     });
@@ -400,11 +355,39 @@
   function printPDF() {
     var dept = getDept().toUpperCase();
     var period = getPeriod().toUpperCase();
-    document.title = 'Period_Tracker_' + period + '_' + dept;
+    document.title = 'Shrink_Labor_' + period + '_' + dept;
     window.print();
   }
 
   render();
 </script>
+
+  <style>
+    @media print {
+      @page { size: 8.5in 11in; margin: 0.4in; }
+      body { font-size: 10px; font-family: 'Courier New', monospace; }
+      .screen { padding: 0; max-width: 4.5in; }
+      .header { padding: 6px 0; background: none; color: #000; text-align: center; border-top: 2px solid #000; border-bottom: 2px solid #000; }
+      .header-title { font-size: 11px; font-weight: bold; letter-spacing: 3px; }
+      .nav { display: none; }
+      .back { display: none; }
+      .body { padding: 6px 0; }
+      .section { margin-bottom: 10px; }
+      .section:last-of-type { margin-bottom: 6px; }
+      .section-head { font-size: 9px; font-weight: bold; letter-spacing: 2px; border-bottom: 1px dashed #000; padding-bottom: 2px; margin-bottom: 4px; }
+      .form-row, .form-field { display: none; }
+      .entry-table { font-size: 9px; width: 100%; }
+      .entry-table thead { display: none; }
+      .entry-table tbody tr { border: none; }
+      .entry-table td { padding: 2px 0; border: none; }
+      .entry-date { font-weight: bold; width: auto; font-size: 9px; padding-right: 8px; }
+      .entry-val { display: none; }
+      .entry-var { font-size: 10px; font-weight: bold; padding-left: 4px; }
+      .btn { display: none; }
+      .footer { display: block; margin: 8px 0 0 0; padding: 0; border-top: 1px dashed #000; border-bottom: 1px dashed #000; text-align: center; color: #000; font-size: 9px; font-weight: bold; padding: 4px 0; }
+      .footer::before { content: 'NOTES'; display: block; margin-bottom: 2px; }
+    }
+  </style>
+
 </body>
 </html>
