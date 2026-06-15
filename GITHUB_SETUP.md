@@ -1,86 +1,65 @@
-# Upload to GitHub Pages — Quick Setup
+# Deploy to GitHub Pages
 
-## Files to Upload (All in Root `/`)
+## Step 1: Create Repository
 
-```
-.gitignore
-README.md
-index.html
-summary.html
-Store_Labor_Tracker_Template.xlsx
-```
+- Go to github.com
+- Click **+** → **New repository**
+- Name: `store-labor-tracker`
+- **Make it PUBLIC**
+- Don't initialize with README (you already have one)
+- Click **Create**
 
-## Step-by-Step
+## Step 2: Upload Files
 
-### 1. Create GitHub Repo
-- Go to github.com → New repository
-- Name: `store-labor-tracker` (or your preference)
-- Description: "Store Labor & Sales Tracker"
-- Public (so GitHub Pages can host it)
-- **Do NOT** initialize with README (you already have one)
-- Click Create Repository
+**Option A: Web Upload (Easiest)**
+1. Click **Add file** → **Upload files**
+2. Drag these files into the box:
+   - `index.html`
+   - `tracking.html`
+   - `period.html`
+   - `README.md`
+   - `.gitignore`
+   - `GITHUB_SETUP.md`
+3. Commit message: `Initial commit`
+4. Click **Commit changes**
 
-### 2. Upload Files
-Option A (Web UI — easiest):
-- Click "Add file" → "Upload files"
-- Drag all 5 files into the upload area
-- Commit message: "Initial commit: v1.0"
-- Click Commit changes
-
-Option B (Command Line):
+**Option B: Command Line**
 ```bash
 git clone https://github.com/yourusername/store-labor-tracker.git
 cd store-labor-tracker
-# Copy the 5 files here
+# Copy the 6 files here
 git add .
-git commit -m "Initial commit: v1.0"
+git commit -m "Initial commit"
 git push origin main
 ```
 
-### 3. Enable GitHub Pages
-- Go to repo Settings → Pages
-- Source: "Deploy from a branch"
-- Branch: `main` / root (`/`)
-- Save
-- Wait 1-2 minutes for the site to build
+## Step 3: Enable GitHub Pages
 
-### 4. Access Your Site
-Your tracker is now live at:
+1. Go to repo **Settings**
+2. Left sidebar → **Pages**
+3. **Source**: Deploy from a branch
+4. **Branch**: `main` / root folder `/`
+5. Click **Save**
+6. Wait 1-2 minutes
+
+## Step 4: Access Your Site
+
+Your tracker is live at:
 ```
 https://yourusername.github.io/store-labor-tracker
 ```
 
-## What Each File Does
+Share this link with your team.
 
-| File | Purpose |
-|------|---------|
-| `index.html` | Landing page with tracker generator |
-| `summary.html` | Weekly performance report |
-| `Store_Labor_Tracker_Template.xlsx` | Excel workbook (downloaded from index.html) |
-| `README.md` | GitHub repo description |
-| `.gitignore` | Ignore unnecessary files |
+## Updates
 
-## Share With Your Team
-
-Once live, share the link:
-```
-https://yourusername.github.io/store-labor-tracker
-```
-
-Everyone can:
-- Download the Excel template (customized per store/quarter)
-- Fill it with their labor data
-- Use the weekly report page to track KPIs
-
-## Updates & Changes
-
-To update in the future:
-1. Edit the files locally
+To update later:
+1. Edit files locally
 2. `git add .`
-3. `git commit -m "Description of changes"`
+3. `git commit -m "Update"`
 4. `git push origin main`
 5. GitHub Pages updates automatically (1-2 min)
 
 ---
 
-**That's it.** Your tracker is now live and shareable.
+**That's it. Your tracker is now live.**

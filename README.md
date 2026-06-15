@@ -1,58 +1,63 @@
-# Store Labor & Sales Tracker
+# Store Performance Tracker
 
 **Version 1.0 2026**
 
-A quarterly labor management tool for retail stores. Track department-level sales and labor performance with automatic variance calculations.
+Real-time department performance tracking. No Excel. No complexity.
+
+## What It Does
+
+- **Weekly Tracking** — WTD sales, shrink, gross, gain by department
+- **Period Tracking** — PTD or QTD performance, YoY sales comparison
+- **Auto-Saves** — Data persists in your browser
+- **Department-Level** — Track each department separately
+- **Sales ID** — Corporate loves it
+- **PDF Export** — Print or save as PDF anytime
 
 ## Files
 
-- `index.html` — Main landing page & tracker generator
-- `summary.html` — Weekly performance report (WTD / PTD)
-- `Store_Labor_Tracker_Template.xlsx` — Excel workbook template
+- `index.html` — Landing page (README)
+- `tracking.html` — Weekly performance tracker
+- `period.html` — Period (PTD/QTD) tracker with YoY
+- `README.md` — This file
+- `.gitignore` — Git ignore rules
+- `GITHUB_SETUP.md` — Deploy instructions
 
 ## How to Use
 
-### 1. Generate Your Tracker
-Visit the main page (`index.html`), enter your store number, quarter, year, and select which departments apply to your store. Download the customized Excel file.
+1. **Go to landing page** (`index.html`)
+2. **Pick a tracker** (Weekly or Period)
+3. **Select department** from dropdown
+4. **Enter Sales ID, projections, actuals**
+5. **Variance auto-calculates** as +/- only
+6. **Print/PDF** when ready
+7. **Switch departments** to see different data
 
-### 2. Enter Forecast Data
-Open the downloaded Excel file. Each monthly sheet asks for:
-- **Sales** (per department)
-- **Labor %** (target labor as % of sales)
-- **Avg Hourly Rate** (average wage)
+## Variance Format
 
-Everything else calculates automatically.
+All variance shown as +/- only:
+- `+$1,234` — gained that much
+- `-$1,234` — lost that much
+- `+0.25 pts` — above target
+- `-0.25 pts` — below target
 
-### 3. Update Actuals
-As each month progresses, enter actual sales, labor %, and hourly rates. Variance appears instantly showing **GOOD!** or **BAD!** status.
-
-### 4. Track Weekly Performance
-Use `summary.html` to enter weekly performance data:
-- **WTD Sales** (vs projection)
-- **PTD Shrink, Gross, Gain** (vs projection)
-
-Variance calculates with +/- notation. Print to PDF for notes.
+Green = Good. Red = Bad.
 
 ## GitHub Pages Setup
 
-1. Create a new GitHub repository (e.g., `store-labor-tracker`)
-2. Copy all three files to the repo root:
-   - `index.html`
-   - `summary.html`
-   - `Store_Labor_Tracker_Template.xlsx`
-3. In repo Settings → Pages:
-   - Source: Deploy from branch
-   - Branch: `main` / root (`/`)
-4. Your site will be live at `https://yourusername.github.io/store-labor-tracker`
+1. Create GitHub repo (`store-labor-tracker`)
+2. Upload all files
+3. Settings → Pages → Deploy from `main` branch, root folder
+4. Site goes live in 1-2 minutes
 
-## Features
+See `GITHUB_SETUP.md` for detailed steps.
 
-- **10 departments** (customizable per store)
-- **Automatic calculations** for hours, labor $, variance
-- **Traffic light status** — GOOD! or BAD! at a glance
-- **Quarterly summaries** — all months auto-total
-- **Weekly reports** — print-friendly with notes space
+## Data Storage
+
+- Saves to browser `localStorage`
+- **Each department has separate history**
+- **Clear browser data = loses history**
+- No server uploads needed
 
 ## Support
 
-Instructions are built into every Excel sheet. See the INSTRUCTIONS tab for detailed guidance.
+Everything is self-contained in the HTML. No dependencies. Works offline.
