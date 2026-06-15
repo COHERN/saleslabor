@@ -38,18 +38,18 @@
   /* PRINT */
   .print-wrap { display:none; }
   @media print {
-    @page { size:8.5in 11in; margin:0.5in 0.75in 0.5in 1in; }
-    body { font-family:'Courier New',monospace; font-size:10px; color:#000; }
+    @page { size:8.5in 11in; margin:0.75in 1.25in; }
+    body { font-family:'Courier New',monospace; font-size:9px; color:#000; background:#fff; }
     .screen { max-width:100%; }
     .header, .body, .footer { display:none; }
     .print-wrap { display:block; }
-    .print-header { border-bottom:3px solid #000; padding-bottom:8px; margin-bottom:6px; }
-    .print-title { font-size:13px; font-weight:bold; letter-spacing:4px; margin-bottom:8px; }
-    .print-meta { display:flex; justify-content:space-between; }
-    .print-meta-item { display:flex; flex-direction:column; gap:2px; }
+    .print-header { border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:8px; text-align:center; }
+    .print-title { font-size:14px; font-weight:bold; letter-spacing:4px; margin-bottom:6px; }
+    .print-meta { display:flex; justify-content:space-between; margin-top:4px; }
+    .print-meta-item { display:flex; flex-direction:column; gap:2px; text-align:left; }
     .print-meta-label { font-size:7px; letter-spacing:2px; color:#555; }
-    .print-meta-val { font-size:12px; font-weight:bold; border-bottom:1px solid #000; min-width:100px; padding-bottom:2px; }
-    .print-line { border-bottom:1px solid #a8c4e0; height:23px; }
+    .print-meta-val { font-size:11px; font-weight:bold; border-bottom:1px solid #000; min-width:90px; padding-bottom:2px; }
+    .print-line { border-bottom:1px solid #b8d0e8; height:24px; }
   }
 </style>
 </head>
