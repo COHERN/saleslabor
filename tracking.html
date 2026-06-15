@@ -69,35 +69,44 @@
 
   .footer { color: var(--dim); font-size: 10px; text-align: center; margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--border); }
 
-  @media print {
-    @page { size: 8.5in 11in; margin: 0.4in; }
-    body { font-size: 10px; font-family: 'Courier New', monospace; }
-    .screen { padding: 0; max-width: 4.5in; }
-    .header { padding: 6px 0; background: none; color: #000; text-align: center; border-top: 2px solid #000; border-bottom: 2px solid #000; }
-    .header-title { font-size: 11px; font-weight: bold; letter-spacing: 3px; }
-    .nav { display: none; }
-    .back { display: none; }
-    .body { padding: 6px 0; }
-    .section { margin-bottom: 10px; }
-    .section:last-of-type { margin-bottom: 6px; }
-    .section-head { font-size: 9px; font-weight: bold; letter-spacing: 2px; border-bottom: 1px dashed #000; padding-bottom: 2px; margin-bottom: 4px; }
-    .form-row, .form-field { display: none; }
-    .entry-table { font-size: 9px; width: 100%; }
-    .entry-table thead { display: none; }
-    .entry-table tbody tr { border: none; }
-    .entry-table td { padding: 2px 0; border: none; }
-    .entry-date { font-weight: bold; width: auto; font-size: 9px; padding-right: 8px; }
-    .entry-val { display: none; }
-    .entry-var { font-size: 10px; font-weight: bold; padding-left: 4px; }
-    .entry-del { display: none; }
-    .btn { display: none; }
-    .footer { display: block; margin: 8px 0 0 0; padding: 0; border-top: 1px dashed #000; border-bottom: 1px dashed #000; text-align: left; color: #000; font-size: 9px; font-weight: bold; text-align: center; padding: 4px 0; }
-    .footer::before { content: 'NOTES'; display: block; margin-bottom: 2px; }
-    .footer::after { content: ''; display: none; }
-  }
+  .print-header { display: none; font-family: 'Courier New', monospace; }
+  .print-section { display: none; }
+  .print-table { display: none; width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; }
+  .print-table td { padding: 2px 0; border: none; }
+  .print-table .label { font-weight: bold; width: 50%; }
+  .print-table .num { text-align: right; width: 50%; }
+  .print-notes { display: none; border: 1px dashed #000; padding: 4px; margin-top: 6px; height: 80px; }
 
   @media print {
-    .receipt-line { border-bottom: 1px solid #000; height: 12px; margin: 1px 0; }
+    @page { size: 8.5in 11in; margin: 0.4in; }
+    body { font-size: 10px; font-family: 'Courier New', monospace; color: #000; }
+    .screen { padding: 0; max-width: 4.5in; }
+    .header { display: none; }
+    .back { display: none; }
+    .body { padding: 0; }
+    .section { display: none; }
+    
+    .print-header { display: block; text-align: center; border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 4px 0; margin-bottom: 6px; font-size: 9px; }
+    .print-header-title { font-weight: bold; font-size: 10px; letter-spacing: 2px; margin-bottom: 2px; }
+    .print-header-info { font-size: 8px; }
+    .print-header-info div { margin: 1px 0; }
+    
+    .print-section { display: block; margin-bottom: 8px; }
+    .print-section-head { font-weight: bold; font-size: 9px; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 4px; }
+    
+    .print-table { display: table; font-size: 9px; }
+    .print-table tr { page-break-inside: avoid; }
+    .print-table td { padding: 1px 0; }
+    .print-table .label { font-weight: normal; }
+    .print-table .num { text-align: right; font-weight: bold; padding-left: 8px; }
+    
+    .print-notes { display: block; border: 1px dashed #000; padding: 2px; margin-top: 6px; font-size: 8px; height: 60px; }
+    .print-notes::before { content: 'NOTES'; display: block; font-weight: bold; margin-bottom: 2px; }
+    
+    .footer { display: none; }
+    .btn { display: none; }
+    .entry-table { display: none; }
+    .form-row, .form-field, .form-input, .form-select { display: none; }
   }
 </style>
 </head>
@@ -211,6 +220,11 @@
     <div class="footer">Data saved to browser per department.</div>
 
   </div>
+
+  <!-- PRINT OUTPUT -->
+  <div class="print-header" id="print-header"></div>
+  <div class="print-section" id="print-content"></div>
+  <div class="print-notes"></div>
 
 </div>
 
@@ -354,8 +368,57 @@
 
   function printPDF() {
     var dept = getDept().toUpperCase();
-    document.title = 'Weekly_Tracker_' + dept;
+    var period = getPeriod().toUpperCase();
+    var date = document.getElementById('entry-date').value || new Date().toISOString().split('T')[0];
+    var salesid = document.getElementById('entry-salesid').value || '';
+    
+    var printHeader = document.getElementById('print-header');
+    var printContent = document.getElementById('print-content');
+    
+    // Build header
+    var headerHTML = '<div class="print-header-title">WEEKLY TRACKER</div>' +
+      '<div class="print-header-info">' +
+      '<div>STORE 1234 - ' + dept + ' - ' + period + '</div>' +
+      '<div>Week Ending: ' + formatDate(date) + '</div>' +
+      '<div>Sales ID: ' + (salesid || 'N/A') + '</div>' +
+      '</div>';
+    
+    printHeader.innerHTML = headerHTML;
+    
+    // Build table from current form values
+    var saleProj = parseNum(document.getElementById('entry-sales-proj').value);
+    var saleAct = parseNum(document.getElementById('entry-sales-act').value);
+    var shrinkProj = parseNum(document.getElementById('entry-shrink-proj').value);
+    var shrinkAct = parseNum(document.getElementById('entry-shrink-act').value);
+    var grossProj = parseNum(document.getElementById('entry-gross-proj').value);
+    var grossAct = parseNum(document.getElementById('entry-gross-act').value);
+    var gainProj = parseNum(document.getElementById('entry-gain-proj').value);
+    var gainAct = parseNum(document.getElementById('entry-gain-act').value);
+    
+    var saleVar = saleAct - saleProj;
+    var shrinkVar = shrinkAct - shrinkProj;
+    var grossVar = grossAct - grossProj;
+    var gainVar = gainAct - gainProj;
+    
+    var tableHTML = '<table class="print-table">' +
+      '<tr><td class="label">SALES</td><td class="num">' + fmt$(saleAct) + ' ' + fmt$(saleVar) + '</td></tr>' +
+      '<tr><td class="label">SHRINK</td><td class="num">' + fmtPts(shrinkAct) + ' ' + fmtPts(shrinkVar) + '</td></tr>' +
+      '<tr><td class="label">GROSS</td><td class="num">' + fmtPts(grossAct) + ' ' + fmtPts(grossVar) + '</td></tr>' +
+      '<tr><td class="label">GAIN</td><td class="num">' + fmtPts(gainAct) + ' ' + fmtPts(gainVar) + '</td></tr>' +
+      '</table>';
+    
+    printContent.innerHTML = tableHTML;
+    
+    document.title = 'Weekly_Tracker_' + period + '_' + dept;
     window.print();
+  }
+  
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    var date = new Date(dateStr + 'T00:00:00');
+    return (date.getMonth()+1).toString().padStart(2,'0') + '/' + 
+           date.getDate().toString().padStart(2,'0') + '/' + 
+           date.getFullYear();
   }
 
   render();
