@@ -152,7 +152,7 @@
     <div class="nav">
       <a class="nav-link" href="pl-tracker.html">P&amp;L</a>
       <a class="nav-link" href="daily.html">DAILY</a>
-      <a class="nav-link" href="lined-notes.html">LINED NOTES</a>
+      <a class="nav-link" href="notes.html">NOTES</a>
     </div>
   </div>
 
@@ -401,7 +401,7 @@
     else { oosEl.textContent='—'; oosEl.className='ecom-val neutral'; }
     if(ho){ hoEl.textContent=ho.toFixed(1)+'%'; hoEl.className='ecom-val '+(ho>=100?'good':'bad'); }
     else { hoEl.textContent='—'; hoEl.className='ecom-val neutral'; }
-    if(ti){ tiEl.textContent=ti.toFixed(1)+'%'; tiEl.className='ecom-val '+(ti>=100?'good':'bad'); }
+    if(ti){ if(ti>=100){ tiEl.textContent=ti.toFixed(1)+'%'; tiEl.className='ecom-val good'; } else { tiEl.textContent=(100-ti).toFixed(1)+'% of customer orders were late'; tiEl.className='ecom-val bad'; } }
     else { tiEl.textContent='—'; tiEl.className='ecom-val neutral'; }
   }
 
