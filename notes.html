@@ -31,20 +31,21 @@
 
   @media print {
     @page { size: 8.5in 11in; margin: 0.5in 0.6in; }
-    body { background:#FFFFFF; font-family:'Courier New',monospace; color:#000; }
-    .screen { max-width:100%; border:none; }
-    .header, .body, .footer { display:none; }
-    .print-wrap { display:block; }
-    .print-header { margin-bottom:12px; border-bottom:3px solid #000; padding-bottom:8px; }
-    .print-title { font-family:'Oswald','Arial Narrow',sans-serif; font-size:20px; font-weight:700; letter-spacing:5px; text-transform:uppercase; margin-bottom:8px; }
+    body { background:#FFFFFF !important; font-family:'Courier New',monospace; color:#000; }
+    .screen { max-width:100% !important; border:none !important; box-shadow:none !important; }
+    .header, .body, .footer { display:none !important; }
+    .print-wrap { display:block !important; }
+    .print-header { margin-bottom:10px; border-bottom:3px solid #000; padding-bottom:8px; }
+    .print-title { font-family:'Oswald','Arial Narrow',sans-serif; font-size:22px; font-weight:700; letter-spacing:5px; text-transform:uppercase; margin-bottom:8px; }
     .print-meta { display:flex; justify-content:space-between; }
     .print-meta-item { display:flex; flex-direction:column; gap:2px; }
     .print-meta-label { font-size:7px; letter-spacing:3px; color:#555; text-transform:uppercase; font-family:'Oswald','Arial Narrow',sans-serif; }
-    .print-meta-val { font-size:12px; font-weight:bold; font-family:'Courier New',monospace; border-bottom:1px solid #000; min-width:100px; padding-bottom:2px; }
-    /* 1/4" = 18pt ruled lines at 72dpi = 24px, but for print use pt */
-    .print-line { border-bottom:1px solid #b0c4d8; height:0.25in; display:block; }
+    .print-meta-val { font-size:11px; font-weight:bold; font-family:'Courier New',monospace; border-bottom:1px solid #000; min-width:100px; padding-bottom:2px; }
+    .print-line { border-bottom:1px solid #aaa; height:0.25in; display:block; width:100%; }
   }
-  .print-wrap { display:none; }
+  @media screen {
+    .print-wrap { display:none; }
+  }
 </style>
 </head>
 <body>

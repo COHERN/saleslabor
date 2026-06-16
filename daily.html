@@ -115,30 +115,31 @@
   .footer { color:var(--dim); font-size:10px; text-align:center; margin-top:28px; padding-top:12px; border-top:1px solid var(--border); }
 
   /* PRINT */
-  .print-wrap { display:none; }
+  @media screen {
+    .print-wrap { display:none; }
+  }
   @media print {
-    @page { size: 8.5in 11in; margin: 0.5in 0.6in; }
-    body { font-size: 9px; font-family: 'Courier New', monospace; color: #000; background: #fff; }
-    .screen { max-width: 100%; padding: 0; }
-    .header, .body, .footer { display: none; }
-    .print-wrap { display: block; max-width: 4in; margin: 0 auto; }
+    @page { size: 8.5in 11in; margin: 0.5in 0.65in; }
+    body { font-size: 9px; font-family: 'Courier New', monospace; color: #000; background: #fff !important; }
+    .screen { max-width: 100% !important; padding: 0; border: none !important; box-shadow: none !important; background: #fff !important; }
+    .header, .body, .footer { display: none !important; }
+    .print-wrap { display: block !important; width: 100%; }
 
-    .print-header { text-align: center; padding-bottom: 6px; margin-bottom: 8px; border-top: 3px solid #000; border-bottom: 3px solid #000; padding: 6px 0; }
-    .print-header-title { font-size: 16px; font-weight: bold; letter-spacing: 6px; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
+    .print-header { text-align: center; border-top: 3px solid #000; border-bottom: 3px solid #000; padding: 6px 0; margin-bottom: 10px; }
+    .print-header-title { font-size: 18px; font-weight: bold; letter-spacing: 6px; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
     .print-header-info { font-size: 8px; letter-spacing: 2px; color: #000; }
-    .print-header-info span { display: inline-block; margin: 0 8px; }
+    .print-header-info span { display: block; margin: 1px 0; }
 
-    .print-section { margin-bottom: 10px; }
-    .print-section-head { font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 3px 0; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; }
+    .print-section { margin-bottom: 8px; }
+    .print-section-head { font-size: 10px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 3px 0; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; }
 
-    .print-row { display: flex; justify-content: space-between; padding: 2px 0; font-size: 8px; }
+    .print-row { display: flex; justify-content: space-between; padding: 2px 0; font-size: 8px; border-bottom: 1px solid #ddd; }
+    .print-row:last-child { border-bottom: none; }
     .print-row-label { color: #000; }
     .print-row-val { font-weight: bold; text-align: right; }
 
-    .print-notes-line { border-bottom: 1px solid #ccc; height: 20px; margin-bottom: 1px; }
+    .print-notes-line { border-bottom: 1px solid #bbb; height: 0.25in; display: block; width: 100%; }
     .print-notes-content { font-size: 8px; line-height: 2.2; white-space: pre-wrap; }
-
-    .print-footer { text-align: center; margin-top: 12px; font-size: 7px; letter-spacing: 2px; border-top: 1px solid #000; padding-top: 4px; color: #555; }
   }
 </style>
 </head>
@@ -511,12 +512,21 @@
     var prodVals=PROD_DEPTS.map(function(k){ return data.production[k]||0; }).filter(function(v){ return v>0; });
     var prodAvg=prodVals.length?prodVals.reduce(function(a,b){return a+b;},0)/prodVals.length:null;
 
+    // Format date nicely
+    var dateDisplay = date;
+    if (date) {
+      var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var d = new Date(date+'T00:00:00');
+      var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      dateDisplay = DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
     document.getElementById('print-header').innerHTML=
       '<div class="print-header-title">STORE WALK</div>'+
       '<div class="print-header-info">'+
       (sn?'<span>STORE '+sn+'</span>':'')+
       '<span>'+deptLabel+'</span>'+
-      '<span>'+date+'</span>'+
+      '<span>'+dateDisplay+'</span>'+
       '</div>';
 
     var b='';
