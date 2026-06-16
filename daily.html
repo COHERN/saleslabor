@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Tracker</title>
+<title>Store Walk</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&display=swap');
   :root {
-    --bg: #8B9BAD; --card: #FFFFFF; --text: #1C2B4A; --dim: #5A6B80;
-    --border: #C8D4E2; --blue: #1C2B4A; --ltblue: #2E5096; --red: #C0292A; --good: #1A6B32;
+    --bg: #F4F0E6; --card: #FFFFFF; --black: #1C1C1C; --navy: #1C2B4A; --text: #1C1C1C;
+    --dim: #666666; --border: #1C1C1C; --blue: #1C2B4A; --ltblue: #2E5096; --red: #C0292A; --good: #1A6B32;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; min-height:100vh; }
@@ -16,7 +16,7 @@
   .screen { max-width:700px; margin:0 auto; }
 
   /* HEADER */
-  .header { background:var(--blue); color:#fff; padding:16px 20px; border-bottom:3px solid var(--ltblue); }
+  .header { background:var(--black); color:#fff; padding:16px 20px; border-bottom:3px solid var(--ltblue); }
   .header-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:8px; }
   .header-titles { flex:1; }
   .header-title { font-size:16px; font-weight:700; letter-spacing:3px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
@@ -93,11 +93,11 @@
   .notes-area { width:100%; min-height:120px; background:transparent; border:none; border-bottom:1px solid var(--border); font-family:'Share Tech Mono','Courier New',monospace; font-size:12px; color:var(--text); resize:vertical; outline:none; line-height:2.2; padding:4px 0; }
 
   /* BUTTONS */
-  .btn { padding:8px 16px; border:none; background:var(--blue); color:#fff; font-family:'Share Tech Mono','Courier New',monospace; font-size:11px; cursor:pointer; letter-spacing:1px; }
+  .btn { padding:8px 16px; border:none; background:var(--black); color:#fff; font-family:'Share Tech Mono','Courier New',monospace; font-size:11px; cursor:pointer; letter-spacing:1px; }
   .btn::before { content:'> '; }
   .btn:hover { background:var(--ltblue); }
   .btn.secondary { background:transparent; border:1px solid var(--blue); color:var(--blue); }
-  .btn.secondary:hover { background:var(--blue); color:#fff; }
+  .btn.secondary:hover { background:var(--black); color:#fff; }
   .btn.danger { color:var(--red); border-color:var(--red); }
 
   /* HISTORY */
@@ -149,20 +149,20 @@
     <a class="back" href="index.html">< HOME</a>
     <div class="header-top">
       <div class="header-titles">
-        <div class="header-title">DAILY TRACKER</div>
-        <div class="header-sub">DAILY PERFORMANCE REVIEW</div>
+        <div class="header-title">STORE WALK</div>
+        <div class="header-sub">DAILY STORE WALKTHROUGH</div>
       </div>
       <div class="store-num-wrap">
         <span class="store-num-label">STORE #</span>
         <input class="store-num-input" id="store-num" maxlength="4" placeholder="####" oninput="saveStoreNum()" type="text" inputmode="numeric">
       </div>
     </div>
-    <div class="nav">
+        <div class="nav">
+      <a class="nav-link" href="daily.html">Store Walk</a>
+      <a class="nav-link" href="notes.html">Notes</a>
+      <a class="nav-link" href="reminders.html">Reminders</a>
       <a class="nav-link" href="pl-tracker.html">P&amp;L</a>
-      <a class="nav-link" href="daily.html">DAILY</a>
-      <a class="nav-link" href="notes.html">NOTES</a>
-      <a class="nav-link" href="glossary.html">GLOSSARY</a>
-      <a class="nav-link" href="reminders.html">REMINDERS</a>
+      <a class="nav-link" href="glossary.html">Glossary</a>
     </div>
   </div>
 
@@ -512,7 +512,7 @@
     var prodAvg=prodVals.length?prodVals.reduce(function(a,b){return a+b;},0)/prodVals.length:null;
 
     document.getElementById('print-header').innerHTML=
-      '<div class="print-header-title">DAILY TRACKER</div>'+
+      '<div class="print-header-title">STORE WALK</div>'+
       '<div class="print-header-info">'+
       (sn?'<span>STORE '+sn+'</span>':'')+
       '<span>'+deptLabel+'</span>'+

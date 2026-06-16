@@ -23,7 +23,7 @@
   body { background: var(--bg); color: var(--text); font-family: 'Share Tech Mono','Courier New',monospace; font-size: 13px; line-height: 1.5; }
 
   .screen { max-width: 760px; margin: 0 auto; padding: 0; }
-  .header { background: var(--blue); color: #fff; padding: 16px 28px; }
+  .header { background: var(--black); color: #fff; padding: 16px 28px; }
   .header-title { font-size: 14px; font-weight: bold; letter-spacing: 2px; }
   .header-sub { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 2px; letter-spacing: 1px; }
   .nav { margin-top: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
@@ -51,7 +51,7 @@
   .metric-card { border: 1px solid var(--border); margin-bottom: 10px; }
   .metric-card.optional { border-color: #ddd; background: var(--opt); }
   .metric-card.hidden { display: none; }
-  .metric-head { background: var(--blue); color: #fff; padding: 6px 12px; font-size: 11px; font-weight: bold; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
+  .metric-head { background: var(--black); color: #fff; padding: 6px 12px; font-size: 11px; font-weight: bold; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
   .metric-card.optional .metric-head { background: #888; }
   .metric-line { font-size: 10px; opacity: 0.7; }
 
@@ -72,13 +72,13 @@
 
   .optional-toggle { margin-bottom: 16px; }
   .toggle-btn { padding: 6px 14px; border: 1px solid var(--blue); background: transparent; color: var(--blue); font-family: 'Share Tech Mono','Courier New',monospace; font-size: 11px; cursor: pointer; letter-spacing: 1px; }
-  .toggle-btn:hover { background: var(--blue); color: #fff; }
+  .toggle-btn:hover { background: var(--black); color: #fff; }
 
-  .btn { padding: 8px 16px; border: none; background: var(--blue); color: #fff; font-family: 'Share Tech Mono','Courier New',monospace; font-size: 11px; cursor: pointer; letter-spacing: 1px; }
+  .btn { padding: 8px 16px; border: none; background: var(--black); color: #fff; font-family: 'Share Tech Mono','Courier New',monospace; font-size: 11px; cursor: pointer; letter-spacing: 1px; }
   .btn::before { content: '> '; }
   .btn:hover { background: var(--ltblue); }
   .btn.secondary { background: transparent; border: 1px solid var(--blue); color: var(--blue); }
-  .btn.secondary:hover { background: var(--blue); color: #fff; }
+  .btn.secondary:hover { background: var(--black); color: #fff; }
   .btn.danger { color: var(--red); border-color: var(--red); }
 
   /* HISTORY TABLE */
@@ -134,12 +134,12 @@
     <a class="back" href="index.html">< HOME</a>
     <div class="header-title">P&L TRACKER</div>
     <div class="header-sub">PERIOD PERFORMANCE REVIEW</div>
-    <div class="nav">
+        <div class="nav">
+      <a class="nav-link" href="daily.html">Store Walk</a>
+      <a class="nav-link" href="notes.html">Notes</a>
+      <a class="nav-link" href="reminders.html">Reminders</a>
       <a class="nav-link" href="pl-tracker.html">P&amp;L</a>
-      <a class="nav-link" href="daily.html">DAILY</a>
-      <a class="nav-link" href="notes.html">NOTES</a>
-      <a class="nav-link" href="glossary.html">GLOSSARY</a>
-      <a class="nav-link" href="reminders.html">REMINDERS</a>
+      <a class="nav-link" href="glossary.html">Glossary</a>
     </div>
   </div>
 

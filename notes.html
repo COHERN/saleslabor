@@ -6,104 +6,95 @@
 <title>Notes</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&display=swap');
-  :root { --blue:#00529F; --ltblue:#009FE0; --text:#231F20; --dim:#777777; --border:#E0E0E0; --red:#D6232A; }
+  :root { --bg:#F4F0E6; --card:#FFFFFF; --black:#1C1C1C; --navy:#1C2B4A; --dim:#666; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; min-height:100vh; }
-  .screen { background:var(--card); box-shadow:0 2px 20px rgba(0,0,0,0.2); }
-  .screen { max-width:700px; margin:0 auto; }
-  .header { background:var(--blue); color:#fff; padding:16px 20px; border-bottom:3px solid var(--ltblue); }
-  .header-title { font-size:16px; font-weight:700; letter-spacing:3px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
-  .header-sub { font-size:10px; color:rgba(255,255,255,0.7); margin-top:2px; letter-spacing:1px; }
-  .nav { margin-top:10px; display:flex; gap:16px; flex-wrap:wrap; }
-  .nav-link { color:#fff; text-decoration:none; font-size:11px; letter-spacing:1px; }
-  .nav-link:hover { color:var(--ltblue); }
-  .back { display:block; color:#fff; text-decoration:none; font-size:11px; margin-bottom:8px; }
-
-  .body { padding:28px 20px 80px; }
-  .section-head { font-size:11px; font-weight:bold; letter-spacing:2px; color:var(--blue); border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:20px; }
-
-  .form-grid { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; margin-bottom:28px; }
+  body { background:var(--bg); color:var(--black); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; min-height:100vh; }
+  .screen { max-width:700px; margin:0 auto; background:var(--card); border-left:4px solid var(--black); border-right:4px solid var(--black); min-height:100vh; }
+  .header { background:var(--black); color:#fff; padding:16px 20px; border-bottom:5px solid var(--navy); }
+  .header-title { font-family:'Oswald',sans-serif; font-size:18px; font-weight:700; letter-spacing:3px; text-transform:uppercase; }
+  .header-sub { font-size:9px; color:rgba(255,255,255,0.5); letter-spacing:2px; margin-top:2px; font-family:'Oswald',sans-serif; }
+  .nav { display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
+  .nav-link { color:rgba(255,255,255,0.7); text-decoration:none; font-size:10px; letter-spacing:2px; font-family:'Oswald',sans-serif; font-weight:600; text-transform:uppercase; }
+  .nav-link:hover { color:#fff; }
+  .back { display:block; color:rgba(255,255,255,0.6); text-decoration:none; font-size:10px; margin-bottom:8px; letter-spacing:1px; font-family:'Oswald',sans-serif; }
+  .body { padding:24px 20px 80px; }
+  .section-head { font-family:'Oswald',sans-serif; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--black); border-bottom:3px solid var(--black); padding-bottom:4px; margin-bottom:20px; text-transform:uppercase; }
+  .form-grid { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end; margin-bottom:24px; }
   .form-field { display:flex; flex-direction:column; gap:4px; }
-  .form-label { font-size:10px; color:var(--dim); letter-spacing:1px; }
-  .form-input { background:transparent; border:none; border-bottom:2px solid var(--dim); font-family:'Share Tech Mono','Courier New',monospace; font-size:14px; font-weight:bold; color:var(--text); padding:2px 4px 4px; outline:none; }
-  .form-input:focus { border-bottom-color:var(--ltblue); }
-  .w-sm { width:70px; }
-  .w-lg { width:160px; }
+  .form-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:2px; color:var(--dim); text-transform:uppercase; font-weight:600; }
+  .form-input { background:transparent; border:none; border-bottom:2px solid var(--black); font-family:'Share Tech Mono','Courier New',monospace; font-size:14px; font-weight:bold; color:var(--black); padding:3px 2px 4px; outline:none; }
+  .form-input:focus { border-bottom-color:var(--navy); }
+  .btn { padding:10px 20px; border:none; background:var(--navy); color:#fff; font-family:'Oswald',sans-serif; font-size:13px; cursor:pointer; letter-spacing:2px; text-transform:uppercase; font-weight:700; }
+  .btn:hover { background:var(--black); }
+  .hint { color:var(--dim); font-size:11px; margin-top:10px; letter-spacing:0.5px; }
+  .footer { color:var(--dim); font-size:10px; text-align:center; margin-top:28px; padding-top:10px; border-top:2px solid var(--black); letter-spacing:1px; }
 
-  .btn { padding:10px 20px; border:none; background:var(--blue); color:#fff; font-family:'Share Tech Mono','Courier New',monospace; font-size:12px; cursor:pointer; letter-spacing:1px; }
-  .btn::before { content:'> '; }
-  .btn:hover { background:var(--ltblue); }
-  .hint { color:var(--dim); font-size:11px; margin-top:12px; }
-  .footer { color:var(--dim); font-size:10px; text-align:center; margin-top:28px; padding-top:12px; border-top:1px solid var(--border); }
-
-  /* PRINT */
-  .print-wrap { display:none; }
   @media print {
-    @page { size:8.5in 11in; margin:0.75in 1.25in; }
-    body { font-family:'Courier New',monospace; font-size:9px; color:#000; background:#fff; }
-    .screen { max-width:100%; }
+    @page { size:8.5in 11in; margin:0.6in 0.75in; }
+    body { background:#fff; font-family:'Courier New',monospace; color:#000; }
+    .screen { max-width:100%; border:none; }
     .header, .body, .footer { display:none; }
     .print-wrap { display:block; }
-    .print-header { border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:8px; text-align:center; }
-    .print-title { font-size:14px; font-weight:bold; letter-spacing:4px; margin-bottom:6px; }
-    .print-meta { display:flex; justify-content:space-between; margin-top:4px; }
-    .print-meta-item { display:flex; flex-direction:column; gap:2px; text-align:left; }
-    .print-meta-label { font-size:7px; letter-spacing:2px; color:#555; }
-    .print-meta-val { font-size:11px; font-weight:bold; border-bottom:1px solid #000; min-width:90px; padding-bottom:2px; }
-    .print-line { border-bottom:1px solid #b8d0e8; height:24px; }
+    .print-header { margin-bottom:12px; border-bottom:3px solid #000; padding-bottom:8px; }
+    .print-title { font-family:'Oswald','Arial Narrow',sans-serif; font-size:20px; font-weight:700; letter-spacing:5px; text-transform:uppercase; margin-bottom:8px; }
+    .print-meta { display:flex; justify-content:space-between; }
+    .print-meta-item { display:flex; flex-direction:column; gap:2px; }
+    .print-meta-label { font-size:7px; letter-spacing:3px; color:#555; text-transform:uppercase; font-family:'Oswald','Arial Narrow',sans-serif; }
+    .print-meta-val { font-size:12px; font-weight:bold; font-family:'Courier New',monospace; border-bottom:1px solid #000; min-width:100px; padding-bottom:2px; }
+    /* 1/4" = 18pt ruled lines at 72dpi = 24px, but for print use pt */
+    .print-line { border-bottom:1px solid #b0c4d8; height:0.25in; display:block; }
   }
+  .print-wrap { display:none; }
 </style>
 </head>
 <body>
 <div class="screen">
   <div class="header">
     <a class="back" href="index.html">< HOME</a>
-    <div class="header-title">NOTES</div>
-    <div class="header-sub">PRINT LINED NOTES PAGE</div>
+    <div class="header-title">Notes</div>
+    <div class="header-sub">Print Lined Notes Page</div>
     <div class="nav">
+      <a class="nav-link" href="daily.html">Store Walk</a>
+      <a class="nav-link" href="notes.html">Notes</a>
+      <a class="nav-link" href="reminders.html">Reminders</a>
       <a class="nav-link" href="pl-tracker.html">P&amp;L</a>
-      <a class="nav-link" href="daily.html">DAILY</a>
-      <a class="nav-link" href="notes.html">NOTES</a>
-      <a class="nav-link" href="glossary.html">GLOSSARY</a>
-      <a class="nav-link" href="reminders.html">REMINDERS</a>
+      <a class="nav-link" href="glossary.html">Glossary</a>
     </div>
   </div>
-
   <div class="body">
-    <div class="section-head">PAGE INFO</div>
+    <div class="section-head">Page Info</div>
     <div class="form-grid">
       <div class="form-field">
-        <label class="form-label">DATE</label>
-        <input class="form-input w-lg" id="inp-date" type="date">
+        <label class="form-label">Date</label>
+        <input class="form-input" id="inp-date" type="date" style="width:160px;">
       </div>
       <div class="form-field">
-        <label class="form-label">STORE #</label>
-        <input class="form-input w-sm" id="inp-store" maxlength="4" placeholder="####" inputmode="numeric" oninput="saveStore()">
+        <label class="form-label">Store #</label>
+        <input class="form-input" id="inp-store" maxlength="4" placeholder="####" inputmode="numeric" oninput="saveStore()" style="width:80px;">
       </div>
       <div class="form-field">
-        <label class="form-label">DEPARTMENT</label>
+        <label class="form-label">Department</label>
         <input class="form-input" id="inp-dept" placeholder="optional" style="width:160px;">
       </div>
     </div>
-    <button class="btn" onclick="doPrint()">PRINT NOTES</button>
+    <button class="btn" onclick="doPrint()">Print Notes</button>
     <div class="hint">Date is required before printing.</div>
-    <div class="footer">Prints one college-ruled page with header.</div>
+    <div class="footer">Prints one 1/4" college-ruled page.</div>
   </div>
-
   <div class="print-wrap">
     <div class="print-header">
-      <div class="print-title">NOTES</div>
+      <div class="print-title">Notes</div>
       <div class="print-meta">
         <div class="print-meta-item">
-          <span class="print-meta-label">DATE</span>
+          <span class="print-meta-label">Date</span>
           <span class="print-meta-val" id="print-date-val">&nbsp;</span>
         </div>
         <div class="print-meta-item">
-          <span class="print-meta-label">STORE</span>
+          <span class="print-meta-label">Store</span>
           <span class="print-meta-val" id="print-store-val">&nbsp;</span>
         </div>
         <div class="print-meta-item">
-          <span class="print-meta-label">DEPARTMENT</span>
+          <span class="print-meta-label">Department</span>
           <span class="print-meta-val" id="print-dept-val">&nbsp;</span>
         </div>
       </div>
@@ -114,8 +105,6 @@
 <script>
   var saved = localStorage.getItem('store_num');
   if (saved) document.getElementById('inp-store').value = saved;
-
-  // Default to today
   document.getElementById('inp-date').value = new Date().toISOString().split('T')[0];
 
   function saveStore() {
@@ -126,22 +115,20 @@
 
   function doPrint() {
     var dateVal = document.getElementById('inp-date').value;
-    if (!dateVal) { alert('Date is required before printing.'); return; }
-
-    var d = new Date(dateVal + 'T00:00:00');
-    var formatted = (d.getMonth()+1).toString().padStart(2,'0') + '/' + d.getDate().toString().padStart(2,'0') + '/' + d.getFullYear();
+    if (!dateVal) { alert('Date is required.'); return; }
+    var d = new Date(dateVal+'T00:00:00');
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var formatted = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
     var store = document.getElementById('inp-store').value.trim();
     var dept  = document.getElementById('inp-dept').value.trim();
-
     document.getElementById('print-date-val').textContent  = formatted;
     document.getElementById('print-store-val').textContent = store || '________';
     document.getElementById('print-dept-val').textContent  = dept  || '____________________';
-
+    // 1/4" lines on 11in page with 0.6in top+bottom margins = 9.8in usable / 0.25in = ~39 lines
     var lines = '';
-    for (var i = 0; i < 33; i++) lines += '<div class="print-line"></div>';
+    for (var i=0; i<38; i++) lines += '<div class="print-line"></div>';
     document.getElementById('print-lines').innerHTML = lines;
-
-    document.title = 'Notes_' + formatted.replace(/\//g,'-') + (store ? '_Store'+store : '');
+    document.title = 'Notes_'+formatted.replace(/ /g,'-')+(store?'_Store'+store:'');
     window.print();
   }
 </script>
