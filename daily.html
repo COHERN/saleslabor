@@ -7,16 +7,16 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&display=swap');
   :root {
-    --bg: #F4F0E6; --card: #FFFFFF; --black: #1C1C1C; --navy: #1C2B4A; --text: #1C1C1C;
-    --dim: #666666; --border: #1C1C1C; --blue: #1C2B4A; --ltblue: #2E5096; --red: #C0292A; --good: #1A6B32;
+    --bg: #F4F0E6; --card: #FFFFFF; --black: #1C1C1C; --navy: #1C1C1C; --text: #1C1C1C;
+    --dim: #666666; --border: #1C1C1C; --blue: #1C1C1C; --ltblue: #444444; --red: #C0292A; --good: #1A6B32;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; min-height:100vh; }
-  .screen { background:var(--card); box-shadow:0 2px 20px rgba(0,0,0,0.2); }
+  body { background:#E8DCC8; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E"); color:var(--text); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; line-height:1.5; min-height:100vh; }
+  .screen { background:#FFFFFF; box-shadow:0 2px 20px rgba(0,0,0,0.2); }
   .screen { max-width:700px; margin:0 auto; }
 
   /* HEADER */
-  .header { background:var(--black); color:#fff; padding:16px 20px; border-bottom:3px solid var(--ltblue); }
+  .header { background:var(--black); color:#fff; padding:16px 20px; border-bottom:3px solid #444444; }
   .header-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:8px; }
   .header-titles { flex:1; }
   .header-title { font-size:16px; font-weight:700; letter-spacing:3px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
@@ -27,27 +27,27 @@
   .store-num-input::placeholder { color:rgba(255,255,255,0.3); }
   .nav { display:flex; gap:16px; flex-wrap:wrap; }
   .nav-link { color:#fff; text-decoration:none; font-size:11px; letter-spacing:1px; }
-  .nav-link:hover { color:var(--ltblue); }
+  .nav-link:hover { color:#444444; }
   .back { display:block; color:#fff; text-decoration:none; font-size:11px; margin-bottom:8px; }
 
   /* BODY */
   .body { padding:20px 20px 80px; }
   .section { margin-bottom:22px; }
-  .section-head { font-size:13px; font-weight:700; letter-spacing:3px; color:var(--blue); border-bottom:2px solid var(--blue); padding-bottom:4px; margin-bottom:12px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
+  .section-head { font-size:13px; font-weight:700; letter-spacing:3px; color:#1C1C1C; border-bottom:2px solid #1C1C1C; padding-bottom:4px; margin-bottom:12px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
 
   /* META */
   .meta-row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; margin-bottom:16px; }
   .meta-field { display:flex; flex-direction:column; gap:2px; }
   .meta-label { color:var(--dim); font-size:10px; letter-spacing:1px; }
   .meta-select, .meta-input { background:transparent; border:none; border-bottom:1px solid var(--dim); font-family:'Share Tech Mono','Courier New',monospace; font-size:13px; font-weight:bold; color:var(--text); padding:2px 2px 3px; outline:none; }
-  .meta-select:focus, .meta-input:focus { border-bottom-color:var(--ltblue); }
+  .meta-select:focus, .meta-input:focus { border-bottom-color:#444444; }
 
   /* INPUTS */
   .input-row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:10px; }
   .input-group { display:flex; flex-direction:column; gap:2px; }
   .input-label { color:var(--dim); font-size:9px; letter-spacing:1px; }
   .input-field { background:transparent; border:none; border-bottom:1px solid var(--dim); font-family:'Share Tech Mono','Courier New',monospace; font-size:12px; color:var(--text); padding:2px 2px 3px; outline:none; width:90px; }
-  .input-field:focus { border-bottom-color:var(--ltblue); }
+  .input-field:focus { border-bottom-color:#444444; }
   .input-field.sm { width:60px; }
   .input-field.pct { width:70px; }
 
@@ -66,7 +66,7 @@
   .prod-total-val.good { color:var(--good); }
   .prod-total-val.bad { color:var(--red); }
   .prod-total-val.neutral { color:var(--dim); }
-  .prod-expand-btn { font-size:10px; color:var(--blue); letter-spacing:1px; border:1px solid var(--blue); padding:2px 8px; cursor:pointer; background:transparent; font-family:'Share Tech Mono','Courier New',monospace; }
+  .prod-expand-btn { font-size:10px; color:#1C1C1C; letter-spacing:1px; border:1px solid #1C1C1C; padding:2px 8px; cursor:pointer; background:transparent; font-family:'Share Tech Mono','Courier New',monospace; }
   .prod-detail { display:none; margin-top:10px; }
   .prod-detail.open { display:block; }
   .check-grid { display:flex; flex-direction:column; gap:8px; }
@@ -95,8 +95,8 @@
   /* BUTTONS */
   .btn { padding:8px 16px; border:none; background:var(--black); color:#fff; font-family:'Share Tech Mono','Courier New',monospace; font-size:11px; cursor:pointer; letter-spacing:1px; }
   .btn::before { content:'> '; }
-  .btn:hover { background:var(--ltblue); }
-  .btn.secondary { background:transparent; border:1px solid var(--blue); color:var(--blue); }
+  .btn:hover { background:#444444; }
+  .btn.secondary { background:transparent; border:1px solid #1C1C1C; color:#1C1C1C; }
   .btn.secondary:hover { background:var(--black); color:#fff; }
   .btn.danger { color:var(--red); border-color:var(--red); }
 
@@ -117,19 +117,19 @@
   /* PRINT */
   .print-wrap { display:none; }
   @media print {
-    @page { size: 8.5in 11in; margin: 0.75in 2in 0.75in 2in; }
+    @page { size: 8.5in 11in; margin: 0.5in 0.6in; }
     body { font-size: 9px; font-family: 'Courier New', monospace; color: #000; background: #fff; }
     .screen { max-width: 100%; padding: 0; }
     .header, .body, .footer { display: none; }
     .print-wrap { display: block; max-width: 4in; margin: 0 auto; }
 
-    .print-header { text-align: center; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 2px solid #000; }
-    .print-header-title { font-size: 13px; font-weight: bold; letter-spacing: 4px; margin-bottom: 4px; }
-    .print-header-info { font-size: 8px; letter-spacing: 1px; color: #000; }
-    .print-header-info span { display: block; margin: 1px 0; }
+    .print-header { text-align: center; padding-bottom: 6px; margin-bottom: 8px; border-top: 3px solid #000; border-bottom: 3px solid #000; padding: 6px 0; }
+    .print-header-title { font-size: 16px; font-weight: bold; letter-spacing: 6px; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
+    .print-header-info { font-size: 8px; letter-spacing: 2px; color: #000; }
+    .print-header-info span { display: inline-block; margin: 0 8px; }
 
     .print-section { margin-bottom: 10px; }
-    .print-section-head { font-size: 8px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px dashed #000; padding: 2px 0; margin-bottom: 4px; }
+    .print-section-head { font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 3px 0; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; }
 
     .print-row { display: flex; justify-content: space-between; padding: 2px 0; font-size: 8px; }
     .print-row-label { color: #000; }
@@ -188,7 +188,7 @@
           </select>
         </div>
         <div class="meta-field">
-          <label class="meta-label">DATE (YESTERDAY)</label>
+          <label class="meta-label">DATE</label>
           <input class="meta-input" id="entry-date" type="date" style="width:140px;">
         </div>
       </div>
