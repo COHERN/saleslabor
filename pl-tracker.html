@@ -234,7 +234,7 @@
     <div class="metric-card optional hidden" id="card-cogs">
       <div class="metric-head">
         <span>LINE 04 — COGS</span>
-        <span class="metric-line">OPTIONAL</span>
+        <span class="metric-line badge-period">P1</span>
       </div>
       <div class="metric-inputs">
         <div class="input-row">
@@ -258,7 +258,7 @@
     <div class="metric-card optional hidden" id="card-markdowns">
       <div class="metric-head">
         <span>LINE 05a/b — MARKDOWNS</span>
-        <span class="metric-line">OPTIONAL</span>
+        <span class="metric-line badge-period">P1</span>
       </div>
       <div class="metric-inputs">
         <div class="input-row">
@@ -330,7 +330,7 @@
     <div class="metric-card optional hidden" id="card-labor">
       <div class="metric-head">
         <span>LINE 19 — LABOR</span>
-        <span class="metric-line">OPTIONAL</span>
+        <span class="metric-line badge-period">P1</span>
       </div>
       <div class="metric-inputs">
         <div class="input-row">
@@ -639,39 +639,46 @@
 
   function printPDF() {
     var dept = document.getElementById('dept').options[document.getElementById('dept').selectedIndex].text;
-    var period = getPeriod().toUpperCase();
+    var periodType = getPeriod().toUpperCase();
+    var periodNum = document.getElementById('period-num') ? document.getElementById('period-num').value : '';
     var date = document.getElementById('entry-date').value;
     var salesIDEl = document.getElementById('sales-id-display');
     var salesID = salesIDEl.textContent;
+
+    // Format date
+    var dateDisplay = date;
+    if (date) {
+      var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var d = new Date(date+'T00:00:00');
+      dateDisplay = MONTHS[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+    }
 
     // Header
     var headerEl = document.getElementById('print-header');
     headerEl.innerHTML = '<div class="print-header-title">P&L TRACKER</div>' +
       '<div class="print-header-info">' +
       '<span>' + dept.toUpperCase() + '</span>' +
-      '<span>' + period + '</span>' +
-      '<span>' + (date || '') + '</span>' +
+      '<span>' + periodType + (periodNum ? ' — ' + periodNum : '') + '</span>' +
+      '<span>' + dateDisplay + '</span>' +
       '<span>SALES ID: ' + salesID + '</span>' +
       '</div>';
 
-    // Build print table from current form
+    // Build print table — 6 columns only
     var bodyEl = document.getElementById('print-body');
     var tbl = '<table class="print-table">';
     tbl += '<thead><tr>' +
       '<th class="left">METRIC</th>' +
-      '<th>ACT $</th><th>ACT %</th><th>PROJ $</th><th>PROJ %</th>' +
-      '<th>VAR $</th><th>VAR %</th><th>LY $</th><th>LY %</th><th>YOY $</th><th>YOY %</th>' +
+      '<th>ACT $</th><th>PROJ $</th>' +
+      '<th>VAR $</th><th>VAR %</th>' +
+      '<th>LY $</th><th>YOY %</th>' +
       '</tr></thead><tbody>';
 
     METRICS.forEach(function(m) {
       if (m.optional && !optVisible) return;
       var k = m.key;
       var actD  = parseNum(document.getElementById(k+'-act-d').value);
-      var actP  = parseNum(document.getElementById(k+'-act-p').value);
       var projD = parseNum(document.getElementById(k+'-proj-d').value);
-      var projP = parseNum(document.getElementById(k+'-proj-p').value);
       var lyD   = parseNum(document.getElementById(k+'-ly-d').value);
-      var lyP   = parseNum(document.getElementById(k+'-ly-p').value);
       var varD  = actD - projD;
       var varP  = projD ? varD/projD*100 : 0;
       var yoyD  = actD - lyD;
@@ -680,26 +687,28 @@
       tbl += '<tr>';
       tbl += '<td class="left">' + m.label + '</td>';
       tbl += '<td>' + (actD ? fmtAct(actD) : '—') + '</td>';
-      tbl += '<td>' + (actP ? fmtActP(actP) : '—') + '</td>';
       tbl += '<td>' + (projD ? fmtAct(projD) : '—') + '</td>';
-      tbl += '<td>' + (projP ? fmtActP(projP) : '—') + '</td>';
       tbl += '<td>' + fmtD(varD) + '</td>';
       tbl += '<td>' + fmtP(varP) + '</td>';
       tbl += '<td>' + (lyD ? fmtAct(lyD) : '—') + '</td>';
-      tbl += '<td>' + (lyP ? fmtActP(lyP) : '—') + '</td>';
-      tbl += '<td>' + fmtD(yoyD) + '</td>';
       tbl += '<td>' + fmtP(yoyP) + '</td>';
       tbl += '</tr>';
     });
 
     tbl += '</tbody></table>';
-    bodyEl.innerHTML = tbl;
 
-    document.title = 'PL_Tracker_' + period + '_' + dept.toUpperCase();
+    // Notes section with ruled lines
+    tbl += '<div class="print-notes"><div class="print-notes-head">NOTES</div>';
+    for (var i = 0; i < 12; i++) tbl += '<div class="print-notes-line"></div>';
+    tbl += '</div>';
+
+    bodyEl.innerHTML = tbl;
+    document.title = 'PL_Tracker_' + periodType + (periodNum?'_'+periodNum:'') + '_' + dept.toUpperCase();
     window.print();
   }
 
   render();
+  updatePeriodBadges();
 </script>
 </body>
 </html>
