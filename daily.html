@@ -124,21 +124,23 @@
     .header, .body, .footer { display: none !important; }
     .print-wrap { display: block !important; width: 100%; }
 
-    .print-header { text-align: center; border-top: 3px solid #000; border-bottom: 3px solid #000; padding: 6px 0; margin-bottom: 10px; }
-    .print-header-title { font-size: 18px; font-weight: bold; letter-spacing: 6px; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
+    .print-header { text-align: center; border-top: 3px solid #000; border-bottom: 3px solid #000; padding: 5px 0; margin-bottom: 8px; }
+    .print-header-title { font-size: 18px; font-weight: bold; letter-spacing: 6px; margin-bottom: 3px; font-family: 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
     .print-header-info { font-size: 8px; letter-spacing: 2px; color: #000; }
-    .print-header-info span { display: block; margin: 1px 0; }
+    .print-header-info span { display: inline-block; margin: 0 8px; }
 
-    .print-section { margin-bottom: 8px; }
-    .print-section-head { font-size: 10px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 3px 0; margin-bottom: 4px; font-family: 'Oswald', 'Arial Narrow', sans-serif; }
+    .print-projection { font-family: 'Oswald', 'Arial Narrow', sans-serif; font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-top: 6px; padding-top: 5px; border-top: 1px solid #000; }
 
-    .print-row { display: flex; justify-content: space-between; padding: 2px 0; font-size: 8px; border-bottom: 1px solid #ddd; }
+    .print-section { margin-bottom: 6px; }
+    .print-section-head { font-size: 10px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 2px 0; margin-bottom: 3px; font-family: 'Oswald', 'Arial Narrow', sans-serif; }
+
+    .print-row { display: flex; justify-content: space-between; padding: 1.5px 0; font-size: 9px; border-bottom: 1px solid #e5e5e5; }
     .print-row:last-child { border-bottom: none; }
-    .print-row-label { color: #000; }
+    .print-row-label { color: #000; letter-spacing: 1px; }
     .print-row-val { font-weight: bold; text-align: right; }
 
-    .print-notes-line { border-bottom: 1px solid #bbb; height: 0.25in; display: block; width: 100%; }
-    .print-notes-content { font-size: 8px; line-height: 2.2; white-space: pre-wrap; }
+    .print-notes-line { border-bottom: 1px solid #bbb; height: 0.25in; display: block; width: 100%; box-sizing: border-box; }
+    .print-notes-content { font-size: 9px; line-height: 2.0; white-space: pre-wrap; }
   }
 </style>
 </head>
@@ -218,9 +220,11 @@
         <div class="input-group"><label class="input-label">PROJ $</label><input class="input-field" id="labor-proj" placeholder="0" oninput="calcLabor()"></div>
       </div>
       <div class="calc-row">
-        <div class="calc-item"><div class="calc-label">VAR $</div><div class="calc-val neutral" id="labor-var-d">—</div></div>
+        <div class="calc-item"><div class="calc-label">ACT % OF SALES</div><div class="calc-val neutral" id="labor-act-pct">—</div></div>
+        <div class="calc-item"><div class="calc-label">PROJ % OF SALES</div><div class="calc-val neutral" id="labor-proj-pct">—</div></div>
         <div class="calc-item"><div class="calc-label">VAR %</div><div class="calc-val neutral" id="labor-var-p">—</div></div>
       </div>
+      <div class="threshold-note">Labor % is calculated against sales.</div>
     </div>
 
     <!-- PROPER PRODUCTION -->
@@ -363,14 +367,27 @@
     setCalc('sales-var-p',fmtP(vP),vP,true);
     setCalc('sales-yoy-d',fmtD(yD),yD,true);
     setCalc('sales-yoy-p',fmtP(yP),yP,true);
+    calcLaborDeferred();
+  }
+
+  function calcLaborDeferred(){
+    if(document.getElementById('labor-act').value || document.getElementById('labor-proj').value) calcLabor();
   }
 
   function calcLabor(){
-    var act=parseNum(document.getElementById('labor-act').value);
-    var proj=parseNum(document.getElementById('labor-proj').value);
-    var vD=act-proj, vP=proj?vD/proj*100:0;
-    setCalc('labor-var-d',fmtD(vD),vD,false);
-    setCalc('labor-var-p',fmtP(vP),vP,false);
+    var laborAct=parseNum(document.getElementById('labor-act').value);
+    var laborProj=parseNum(document.getElementById('labor-proj').value);
+    var salesAct=parseNum(document.getElementById('sales-act').value);
+    var salesProj=parseNum(document.getElementById('sales-proj').value);
+    var actPct = salesAct ? laborAct/salesAct*100 : 0;
+    var projPct = salesProj ? laborProj/salesProj*100 : 0;
+    var varP = actPct - projPct;
+    var actEl=document.getElementById('labor-act-pct');
+    var projEl=document.getElementById('labor-proj-pct');
+    if(actPct){ actEl.textContent=actPct.toFixed(1)+'%'; actEl.className='calc-val'; } else { actEl.textContent='—'; actEl.className='calc-val neutral'; }
+    if(projPct){ projEl.textContent=projPct.toFixed(1)+'%'; projEl.className='calc-val'; } else { projEl.textContent='—'; projEl.className='calc-val neutral'; }
+    // Lower labor % is good
+    setCalc('labor-var-p', (actPct&&projPct)?fmtP(varP):'—', varP, false);
   }
 
   function calcProd(){
@@ -443,7 +460,7 @@
     ['sales-act','sales-proj','sales-ly','labor-act','labor-proj','temp-completed','temp-total','ecom-oos','ecom-handoff','ecom-tilling'].forEach(function(id){ var el=document.getElementById(id); if(el)el.value=''; });
     PROD_DEPTS.forEach(function(k){ document.getElementById('prod-'+k).value=''; });
     document.getElementById('notes').value='';
-    ['sales-var-d','sales-var-p','sales-yoy-d','sales-yoy-p','labor-var-d','labor-var-p','temp-pct'].forEach(function(id){ var el=document.getElementById(id); if(el){ el.textContent='—'; el.className=el.className.replace(/\s*(good|bad|neutral)/g,'')+' neutral'; } });
+    ['sales-var-d','sales-var-p','sales-yoy-d','sales-yoy-p','labor-act-pct','labor-proj-pct','labor-var-p','temp-pct'].forEach(function(id){ var el=document.getElementById(id); if(el){ el.textContent='—'; el.className=el.className.replace(/\s*(good|bad|neutral)/g,'')+' neutral'; } });
     PROD_DEPTS.forEach(function(k){ var el=document.getElementById('prod-'+k+'-val'); if(el){ el.textContent='—'; el.className='check-val neutral'; } });
     ['ecom-oos-val','ecom-handoff-val','ecom-tilling-val'].forEach(function(id){ var el=document.getElementById(id); if(el){ el.textContent='—'; el.className='ecom-val neutral'; } });
     document.getElementById('prod-total').textContent='—';
@@ -526,9 +543,16 @@
       (sn?'<span>STORE '+sn+'</span>':'')+
       '<span>'+deptLabel+'</span>'+
       '<span>'+dateDisplay+'</span>'+
-      '</div>';
+      '</div>'+
+      (data.sales.proj?'<div class="print-projection">TODAY\'S PROJECTION: '+fmtActD(data.sales.proj)+'</div>':'');
+
+    // Calculate labor percentages
+    var laborActPct = data.sales.act ? data.labor.act/data.sales.act*100 : 0;
+    var laborProjPct = data.sales.proj ? data.labor.proj/data.sales.proj*100 : 0;
+    var laborVarPct = laborActPct - laborProjPct;
 
     var b='';
+
     b+='<div class="print-section"><div class="print-section-head">SALES</div>';
     b+='<div class="print-row"><span class="print-row-label">ACTUAL</span><span class="print-row-val">'+fmtActD(data.sales.act)+'</span></div>';
     b+='<div class="print-row"><span class="print-row-label">PROJECTION</span><span class="print-row-val">'+fmtActD(data.sales.proj)+'</span></div>';
@@ -536,9 +560,9 @@
     b+='<div class="print-row"><span class="print-row-label">LY / YOY</span><span class="print-row-val">'+fmtActD(data.sales.ly)+' / '+fmtP(yP)+'</span></div></div>';
 
     b+='<div class="print-section"><div class="print-section-head">LABOR</div>';
-    b+='<div class="print-row"><span class="print-row-label">ACTUAL</span><span class="print-row-val">'+fmtActD(data.labor.act)+'</span></div>';
-    b+='<div class="print-row"><span class="print-row-label">PROJECTION</span><span class="print-row-val">'+fmtActD(data.labor.proj)+'</span></div>';
-    b+='<div class="print-row"><span class="print-row-label">VARIANCE</span><span class="print-row-val">'+fmtD(lD)+' ('+fmtP(lP)+')</span></div></div>';
+    b+='<div class="print-row"><span class="print-row-label">ACTUAL %</span><span class="print-row-val">'+(laborActPct?laborActPct.toFixed(1)+'%':'—')+'</span></div>';
+    b+='<div class="print-row"><span class="print-row-label">PROJECTION %</span><span class="print-row-val">'+(laborProjPct?laborProjPct.toFixed(1)+'%':'—')+'</span></div>';
+    b+='<div class="print-row"><span class="print-row-label">VARIANCE</span><span class="print-row-val">'+((laborActPct&&laborProjPct)?fmtP(laborVarPct):'—')+'</span></div></div>';
 
     b+='<div class="print-section"><div class="print-section-head">PROPER PRODUCTION</div>';
     if(prodAvg!==null) b+='<div class="print-row"><span class="print-row-label">STORE TOTAL</span><span class="print-row-val">'+prodAvg.toFixed(1)+'%</span></div>';
