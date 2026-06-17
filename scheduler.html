@@ -56,7 +56,10 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
 /* Day headers */
 .sched-table thead tr th{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 8px;text-align:center;border-bottom:2px solid #1C1C1C;border-right:1px solid #ddd;color:#1C1C1C;background:#fff;white-space:nowrap;}
 .sched-table thead tr th.name-th{text-align:left;min-width:180px;border-right:1px solid #ccc;}
-.sched-table thead tr th.day-th{min-width:120px;}
+.sched-table thead tr th.day-th{min-width:105px;}
+
+/* LANDSCAPE BANNER */
+.landscape-banner{background:#fff8e1;border:1px solid #B8860B;color:#8a6500;padding:8px 14px;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:0;text-align:center;}
 .sched-table thead tr th.hrs-th{min-width:55px;border-left:1px solid #ccc;border-right:none;}
 .sched-table thead tr th .day-date{font-size:8px;font-weight:400;color:#999;display:block;margin-top:1px;letter-spacing:1px;}
 .sched-table thead tr th .holiday-flag{font-size:7px;color:#C0292A;font-weight:700;display:block;letter-spacing:0.5px;}
@@ -92,13 +95,11 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
 .del-row-btn{background:transparent;border:none;color:#ccc;cursor:pointer;font-size:13px;padding:0;line-height:1;}
 .del-row-btn:hover{color:#C0292A;}
 
-/* BOTTOM STRIP */
-.bottom-strip{display:flex;gap:0;border-top:1px solid #ddd;margin-top:20px;padding-top:14px;}
-.bottom-block{flex:1;padding:0 16px;border-right:1px solid #eee;}
-.bottom-block:first-child{padding-left:0;}
-.bottom-block:last-child{border-right:none;flex:2;}
-.bottom-label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:6px;}
-.sig-line{border-bottom:1px solid #ccc;height:22px;}
+/* NOTES SECTION */
+.notes-section{border-top:1px solid #ddd;margin-top:20px;padding-top:14px;}
+.notes-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:8px;}
+.notes-textarea{width:100%;min-height:110px;border:1px solid #ccc;font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:#1C1C1C;padding:10px;background:transparent;outline:none;resize:vertical;line-height:1.8;}
+.notes-textarea:focus{border-color:#1C1C1C;}
 
 /* ACTION BUTTONS */
 .btn-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
@@ -109,16 +110,22 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
 
 /* PRINT */
 @media print{
-  @page{size:11in 8.5in landscape;margin:0.3in 0.4in;}
+  @page{size:11in 8.5in landscape;margin:0.25in 0.35in;}
   body{background:#fff!important;}
   .screen{border:none!important;max-width:100%!important;}
-  .site-header,.btn-row,.add-row-wrap,.del-row-btn,.status-strip{display:none!important;}
+  .site-header,.btn-row,.add-row-wrap,.del-row-btn,.status-strip,.landscape-banner{display:none!important;}
   .tool-body{padding:0!important;}
   .sched-outer{overflow:visible!important;}
-  .name-input,.shift-input,.labor-input,.setup-input{border:none!important;background:transparent!important;}
+  .name-input,.shift-input,.labor-input,.setup-input,.notes-textarea{border:none!important;background:transparent!important;}
   tr:nth-child(even) td{background:#fff!important;}
   .emp-row:nth-child(even) td.hrs-td{background:#fff!important;}
   .labor-block,.setup-block{background:#fff!important;}
+  input:-webkit-autofill,textarea:-webkit-autofill{
+    -webkit-box-shadow:0 0 0 1000px #fff inset!important;
+    -webkit-text-fill-color:#1C1C1C!important;
+    background-color:#fff!important;
+  }
+  .notes-textarea{min-height:90px;}
 }
 </style>
 </head>
@@ -142,6 +149,8 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
 
   <div class="tool-body">
 
+    <div class="landscape-banner">⊞ Set Orientation to Landscape in Print Options for best fit</div>
+
     <!-- SETUP ROW -->
     <div class="setup-row">
       <div class="setup-block">
@@ -159,7 +168,7 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
       </div>
       <div class="setup-block">
         <span class="setup-label">Manager</span>
-        <input class="setup-input" id="inp-mgr" placeholder="Name">
+        <input class="setup-input" id="inp-mgr" placeholder="Name" autocomplete="off">
       </div>
     </div>
 
@@ -167,7 +176,7 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
     <div class="labor-strip">
       <div class="labor-block">
         <span class="labor-label">Sales Projection $</span>
-        <input class="labor-input" id="l-sales" placeholder="0" inputmode="numeric" oninput="calcLabor()">
+        <input class="labor-input" id="l-sales" placeholder="0" inputmode="numeric" oninput="formatSalesInput(this); calcLabor()">
       </div>
       <div class="labor-block">
         <span class="labor-label">Labor %</span>
@@ -209,24 +218,10 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
       <span style="font-size:9px;color:#999;font-family:'Oswald',sans-serif;letter-spacing:1px;">Type shift as <strong>5a-130p</strong> or <strong>10p-6a</strong> — type <strong>OFF</strong> for day off</span>
     </div>
 
-    <!-- BOTTOM STRIP -->
-    <div class="bottom-strip">
-      <div class="bottom-block">
-        <div class="bottom-label">Prepared By</div>
-        <div class="sig-line"></div>
-      </div>
-      <div class="bottom-block">
-        <div class="bottom-label">Approved By</div>
-        <div class="sig-line"></div>
-      </div>
-      <div class="bottom-block">
-        <div class="bottom-label">Date Submitted</div>
-        <div class="sig-line"></div>
-      </div>
-      <div class="bottom-block">
-        <div class="bottom-label">Notes</div>
-        <div class="sig-line"></div>
-      </div>
+    <!-- NOTES -->
+    <div class="notes-section">
+      <div class="notes-label">Notes</div>
+      <textarea class="notes-textarea" id="inp-notes" placeholder="Schedule notes, coverage reminders, callouts..."></textarea>
     </div>
 
     <div class="btn-row">
@@ -240,8 +235,8 @@ body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;fo
 
 <script>
 // ── CONSTANTS ──────────────────────────────────────────────
-var DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -312,18 +307,17 @@ function updateWeek() {
   if(!val) return;
   var picked = new Date(val+'T00:00:00');
   var dow = picked.getDay();
-  var diff = picked.getDate() - dow + (dow===0?-6:1);
-  var monday = new Date(picked);
-  monday.setDate(diff);
+  var sunday = new Date(picked);
+  sunday.setDate(picked.getDate() - dow);
   weekDates = [];
   for(var i=0;i<7;i++){
-    var d = new Date(monday);
-    d.setDate(monday.getDate()+i);
+    var d = new Date(sunday);
+    d.setDate(sunday.getDate()+i);
     weekDates.push(d);
   }
-  var wn = getWeekNumber(monday);
+  var wn = getWeekNumber(sunday);
   document.getElementById('week-badge').textContent = 'Week ' + wn + ' — ' +
-    SHORT_MONTHS[monday.getMonth()]+' '+monday.getDate()+' – '+
+    SHORT_MONTHS[sunday.getMonth()]+' '+sunday.getDate()+' – '+
     SHORT_MONTHS[weekDates[6].getMonth()]+' '+weekDates[6].getDate()+', '+weekDates[6].getFullYear();
   renderHead();
   renderFoot();
@@ -408,7 +402,7 @@ function renderBody() {
     // Name cell
     var nameTd='<td class="name-td"><div class="name-wrap">'+
       '<span class="row-num">'+(idx+1)+'</span>'+
-      '<input class="name-input" placeholder="Employee name" value="'+esc(row.name)+'" '+
+      '<input class="name-input" placeholder="" value="'+esc(row.name)+'" '+
       'onchange="updateName('+row.id+',this.value)">'+
       '</div></td>';
     // Shift cells
@@ -510,6 +504,17 @@ function formatShift(input) {
 }
 
 // ── LABOR CALC ──────────────────────────────────────────────
+function formatSalesInput(input) {
+  var cursorFromEnd = input.value.length - input.selectionStart;
+  var raw = input.value.replace(/,/g,'').replace(/[^\d.]/g,'');
+  if(!raw){ input.value=''; return; }
+  var parts = raw.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  input.value = parts.join('.');
+  var newPos = input.value.length - cursorFromEnd;
+  input.setSelectionRange(newPos, newPos);
+}
+
 function calcLabor() {
   var sales=parseFloat(document.getElementById('l-sales').value.replace(/,/g,''))||0;
   var pct=parseFloat(document.getElementById('l-pct').value)||0;
@@ -546,6 +551,7 @@ function saveSchedule() {
     sales:document.getElementById('l-sales').value,
     pct:document.getElementById('l-pct').value,
     wage:document.getElementById('l-wage').value,
+    notes:document.getElementById('inp-notes').value,
     rows:rows
   };
   localStorage.setItem(key,JSON.stringify(data));
@@ -562,6 +568,7 @@ function clearAll(){
   document.getElementById('l-sales').value='';
   document.getElementById('l-pct').value='';
   document.getElementById('l-wage').value='';
+  document.getElementById('inp-notes').value='';
   renderBody();
   renderFoot();
   calcLabor();
@@ -570,15 +577,14 @@ function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 
 // ── INIT ────────────────────────────────────────────────────
 (function(){
-  // Set week to current Monday
+  // Set week to current Sunday
   var today=new Date();
   var dow=today.getDay();
-  var diff=today.getDate()-dow+(dow===0?-6:1);
-  var monday=new Date(today);
-  monday.setDate(diff);
-  var y=monday.getFullYear();
-  var m=String(monday.getMonth()+1).padStart(2,'0');
-  var d=String(monday.getDate()).padStart(2,'0');
+  var sunday=new Date(today);
+  sunday.setDate(today.getDate()-dow);
+  var y=sunday.getFullYear();
+  var m=String(sunday.getMonth()+1).padStart(2,'0');
+  var d=String(sunday.getDate()).padStart(2,'0');
   document.getElementById('inp-week').value=y+'-'+m+'-'+d;
   var sn=localStorage.getItem('store_num');
   if(sn)document.getElementById('inp-store').value=sn;
