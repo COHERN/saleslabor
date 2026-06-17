@@ -6,638 +6,585 @@
 <title>Schedule Builder</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&display=swap');
-:root {
-  --black:#1C1C1C; --white:#fff; --bg:#E8DCC8;
-  --red:#C0292A; --green:#1A6B32; --yellow:#B8860B;
-  --dim:#666; --light:#f5f5f5; --border:#ddd;
-}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:var(--black);}
-.screen{max-width:1400px;margin:0 auto;background:#fff;border-left:4px solid var(--black);border-right:4px solid var(--black);min-height:100vh;}
+body{background:#E8DCC8;font-family:'Share Tech Mono','Courier New',monospace;font-size:11px;color:#1C1C1C;}
+.screen{max-width:1300px;margin:0 auto;background:#fff;border-left:4px solid #1C1C1C;border-right:4px solid #1C1C1C;min-height:100vh;}
 
-/* HEADER */
-.header{background:var(--black);color:#fff;padding:14px 20px;}
-.header-title{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
-.header-sub{font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:2px;font-family:'Oswald',sans-serif;}
+/* SITE HEADER */
+.site-header{background:#1C1C1C;color:#fff;padding:14px 20px;}
+.site-title{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.site-sub{font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:2px;font-family:'Oswald',sans-serif;}
+.back{display:block;color:rgba(255,255,255,0.6);text-decoration:none;font-size:10px;margin-bottom:6px;letter-spacing:1px;font-family:'Oswald',sans-serif;}
 .nav{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;}
 .nav a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:10px;letter-spacing:2px;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;}
 .nav a:hover{color:#fff;}
-.back{display:block;color:rgba(255,255,255,0.6);text-decoration:none;font-size:10px;margin-bottom:6px;letter-spacing:1px;font-family:'Oswald',sans-serif;}
 
-.body{padding:20px;}
+/* TOOL BODY */
+.tool-body{padding:20px 24px 60px;}
 
-/* SETUP ROW */
-.setup-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--black);}
-.setup-field{display:flex;flex-direction:column;gap:3px;}
-.setup-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;font-weight:600;}
-.setup-input{border:none;border-bottom:2px solid var(--black);font-family:'Share Tech Mono','Courier New',monospace;font-size:14px;font-weight:bold;color:var(--black);padding:3px 2px;background:transparent;outline:none;width:160px;}
-.setup-input:focus{border-bottom-color:var(--black);}
-.setup-input.wide{width:200px;}
-.setup-input.narrow{width:80px;}
-.setup-input.med{width:120px;}
+/* SETUP FIELDS */
+.setup-row{display:flex;gap:0;flex-wrap:wrap;border-top:2px solid #1C1C1C;border-bottom:1px solid #ddd;margin-bottom:0;}
+.setup-block{flex:1;min-width:140px;padding:10px 16px;border-right:1px solid #ddd;display:flex;flex-direction:column;gap:4px;}
+.setup-block:first-child{padding-left:0;}
+.setup-block:last-child{border-right:none;}
+.setup-label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;color:#999;text-transform:uppercase;}
+.setup-input{border:none;border-bottom:1px solid #ccc;font-family:'Share Tech Mono','Courier New',monospace;font-size:14px;font-weight:bold;color:#1C1C1C;padding:2px 0;background:transparent;outline:none;width:100%;}
+.setup-input:focus{border-bottom-color:#1C1C1C;}
+.week-badge{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:#999;letter-spacing:1px;margin-top:2px;}
 
-/* LABOR CALCULATOR */
-.labor-bar{background:var(--light);border:2px solid var(--black);padding:14px 16px;margin-bottom:20px;}
-.labor-bar-head{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
-.labor-inputs{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;}
-.labor-field{display:flex;flex-direction:column;gap:3px;}
-.labor-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
-.labor-input{border:none;border-bottom:2px solid var(--black);font-family:'Share Tech Mono','Courier New',monospace;font-size:14px;font-weight:bold;color:var(--black);padding:3px 2px;background:transparent;outline:none;width:120px;}
-.labor-result{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
-.labor-stat{display:flex;flex-direction:column;gap:2px;}
-.labor-stat-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
-.labor-stat-val{font-size:18px;font-weight:bold;font-family:'Share Tech Mono',monospace;}
-.status-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border:2px solid var(--black);margin-top:14px;}
-.status-label{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
-.status-val{font-size:14px;font-weight:bold;}
-.status-green{color:var(--green);border-color:var(--green);}
-.status-yellow{color:var(--yellow);border-color:var(--yellow);}
-.status-red{color:var(--red);border-color:var(--red);}
+/* LABOR STRIP */
+.labor-strip{display:flex;gap:0;border-bottom:2px solid #1C1C1C;margin-bottom:0;}
+.labor-block{flex:1;padding:8px 14px;border-right:1px solid #eee;display:flex;flex-direction:column;gap:3px;}
+.labor-block:last-child{border-right:none;}
+.labor-label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;color:#999;text-transform:uppercase;}
+.labor-input{border:none;border-bottom:1px solid #ccc;font-family:'Share Tech Mono','Courier New',monospace;font-size:14px;font-weight:bold;color:#1C1C1C;padding:2px 0;background:transparent;outline:none;width:100%;}
+.labor-input:focus{border-bottom-color:#1C1C1C;}
+.labor-result{font-size:16px;font-weight:bold;color:#1C1C1C;padding:2px 0;}
+.labor-result.good{color:#1A6B32;}
+.labor-result.bad{color:#C0292A;}
+.labor-result.dim{color:#999;}
+.status-strip{padding:6px 14px;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:8px;}
+.status-strip.good{color:#1A6B32;}
+.status-strip.bad{color:#C0292A;}
+.status-strip.warn{color:#B8860B;}
+.status-strip.dim{color:#999;}
 
-/* DAY LEDGER */
-.ledger-section{margin-bottom:20px;}
-.section-head{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border-bottom:2px solid var(--black);padding-bottom:4px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
-.ledger-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
-.ledger-day{border:1px solid var(--border);padding:8px;}
-.ledger-day-head{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.ledger-day-date{font-size:8px;color:var(--dim);margin-bottom:6px;}
-.ledger-holiday{font-size:8px;color:var(--red);font-weight:bold;margin-bottom:4px;padding:2px 4px;background:#fce4e4;}
-.ledger-entry{display:flex;gap:4px;margin-bottom:4px;align-items:center;}
-.ledger-entry input{flex:1;border:none;border-bottom:1px solid var(--border);font-family:'Share Tech Mono','Courier New',monospace;font-size:9px;padding:2px;background:transparent;outline:none;color:var(--black);}
-.ledger-entry input:focus{border-bottom-color:var(--black);}
-.ledger-add{font-size:9px;color:var(--dim);cursor:pointer;padding:2px 4px;border:1px solid var(--border);background:transparent;font-family:'Oswald',sans-serif;letter-spacing:1px;}
-.ledger-add:hover{background:var(--black);color:#fff;border-color:var(--black);}
-.del-btn{color:var(--dim);background:transparent;border:none;cursor:pointer;font-size:10px;padding:0 2px;line-height:1;}
-.del-btn:hover{color:var(--red);}
+/* SCHEDULE TABLE */
+.sched-outer{overflow-x:auto;margin-top:0;}
+.sched-table{width:100%;border-collapse:collapse;min-width:900px;}
 
-/* SCHEDULE GRID */
-.schedule-section{margin-bottom:20px;overflow-x:auto;}
-.schedule-table{width:100%;border-collapse:collapse;min-width:900px;}
-.schedule-table th{background:var(--black);color:#fff;font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 8px;text-align:center;border:1px solid #333;white-space:nowrap;}
-.schedule-table th.left{text-align:left;min-width:130px;}
-.schedule-table th.role-th{min-width:100px;}
-.schedule-table th.day-th{min-width:110px;}
-.schedule-table th.hrs-th{min-width:55px;background:#333;}
-.schedule-table th.status-th{min-width:70px;background:#333;}
+/* Day headers */
+.sched-table thead tr th{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 8px;text-align:center;border-bottom:2px solid #1C1C1C;border-right:1px solid #ddd;color:#1C1C1C;background:#fff;white-space:nowrap;}
+.sched-table thead tr th.name-th{text-align:left;min-width:180px;border-right:1px solid #ccc;}
+.sched-table thead tr th.day-th{min-width:120px;}
+.sched-table thead tr th.hrs-th{min-width:55px;border-left:1px solid #ccc;border-right:none;}
+.sched-table thead tr th .day-date{font-size:8px;font-weight:400;color:#999;display:block;margin-top:1px;letter-spacing:1px;}
+.sched-table thead tr th .holiday-flag{font-size:7px;color:#C0292A;font-weight:700;display:block;letter-spacing:0.5px;}
 
-.schedule-table td{padding:4px 6px;border:1px solid var(--border);vertical-align:middle;}
-.name-td{font-weight:bold;font-size:11px;border-left:3px solid var(--black);}
-.name-input{border:none;border-bottom:1px solid var(--border);font-family:'Share Tech Mono','Courier New',monospace;font-size:11px;font-weight:bold;width:100%;background:transparent;outline:none;padding:2px 0;}
-.role-input{border:none;border-bottom:1px solid var(--border);font-family:'Share Tech Mono','Courier New',monospace;font-size:9px;width:100%;background:transparent;outline:none;padding:2px 0;color:var(--dim);}
-.type-select{border:1px solid var(--border);font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;padding:2px 4px;background:#fff;letter-spacing:1px;text-transform:uppercase;outline:none;cursor:pointer;}
-.shift-cell{text-align:center;padding:3px!important;}
-.shift-wrap{display:flex;flex-direction:column;gap:2px;align-items:center;}
-.time-row{display:flex;gap:2px;align-items:center;justify-content:center;}
-.time-input{width:42px;border:none;border-bottom:1px solid var(--border);font-family:'Share Tech Mono','Courier New',monospace;font-size:9px;text-align:center;background:transparent;outline:none;padding:1px;}
-.time-input:focus{border-bottom-color:var(--black);}
-.ampm-select{border:none;border-bottom:1px solid var(--border);font-family:'Oswald',sans-serif;font-size:8px;font-weight:700;background:transparent;outline:none;padding:1px;cursor:pointer;}
-.off-toggle{display:flex;align-items:center;gap:3px;margin-top:2px;}
-.off-toggle input{cursor:pointer;accent-color:var(--black);}
-.off-toggle label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:1px;cursor:pointer;color:var(--dim);}
-.shift-warn{font-size:7px;color:var(--red);font-family:'Oswald',sans-serif;letter-spacing:1px;}
-.hrs-td{text-align:center;font-weight:bold;font-size:12px;background:var(--light);border-left:2px solid var(--black);}
-.status-td{text-align:center;}
-.status-badge{font-family:'Oswald',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;padding:2px 6px;text-transform:uppercase;}
-.badge-ok{color:var(--green);}
-.badge-over{color:var(--red);}
-.badge-under{color:var(--yellow);}
-.badge-low{color:var(--red);}
-.add-row-btn{padding:8px 16px;background:var(--black);color:#fff;border:none;font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:10px;}
-.add-row-btn:hover{background:#333;}
-.del-row-btn{background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:12px;padding:0 4px;}
-.del-row-btn:hover{color:var(--red);}
-.total-row td{background:var(--light);font-family:'Oswald',sans-serif;font-weight:700;font-size:10px;letter-spacing:1px;border-top:2px solid var(--black);}
+/* Employee rows */
+.emp-row td{border-bottom:1px solid #eee;border-right:1px solid #eee;padding:0;height:38px;vertical-align:middle;}
+.emp-row td.name-td{border-right:1px solid #ccc;padding:0 10px;}
+.emp-row td.hrs-td{border-left:1px solid #ccc;border-right:none;text-align:center;font-weight:bold;font-size:14px;color:#1C1C1C;background:#fafafa;}
+.emp-row td.del-td{border-right:none;border-left:none;padding:0 4px;width:24px;}
+.emp-row:last-child td{border-bottom:2px solid #1C1C1C;}
+.emp-row:nth-child(even) td{background:#fafafa;}
+.emp-row:nth-child(even) td.hrs-td{background:#f0f0f0;}
 
-/* BUTTONS */
+.name-wrap{display:flex;align-items:center;gap:6px;}
+.row-num{font-size:8px;color:#ccc;font-family:'Oswald',sans-serif;width:16px;flex-shrink:0;}
+.name-input{border:none;border-bottom:1px solid #ddd;font-family:'Share Tech Mono','Courier New',monospace;font-size:11px;font-weight:bold;color:#1C1C1C;padding:2px 0;background:transparent;outline:none;flex:1;}
+.name-input:focus{border-bottom-color:#1C1C1C;}
+
+.shift-input{width:100%;height:100%;border:none;font-family:'Share Tech Mono','Courier New',monospace;font-size:11px;font-weight:bold;color:#1C1C1C;text-align:center;padding:0 4px;background:transparent;outline:none;letter-spacing:0.5px;}
+.shift-input:focus{background:#fffff8;}
+.shift-input.off-val{color:#bbb;font-style:italic;}
+.shift-input.warn-val{color:#C0292A;}
+
+/* Totals row */
+.totals-row td{border-top:2px solid #1C1C1C;border-right:1px solid #eee;padding:6px 8px;font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-align:center;color:#1C1C1C;}
+.totals-row td.name-td{text-align:left;border-right:1px solid #ccc;}
+.totals-row td.hrs-td{border-left:1px solid #ccc;border-right:none;}
+
+/* ADD ROW */
+.add-row-wrap{padding:10px 0;display:flex;gap:10px;align-items:center;}
+.add-btn{padding:7px 16px;background:#fff;border:1px solid #1C1C1C;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:#1C1C1C;}
+.add-btn:hover{background:#1C1C1C;color:#fff;}
+.del-row-btn{background:transparent;border:none;color:#ccc;cursor:pointer;font-size:13px;padding:0;line-height:1;}
+.del-row-btn:hover{color:#C0292A;}
+
+/* BOTTOM STRIP */
+.bottom-strip{display:flex;gap:0;border-top:1px solid #ddd;margin-top:20px;padding-top:14px;}
+.bottom-block{flex:1;padding:0 16px;border-right:1px solid #eee;}
+.bottom-block:first-child{padding-left:0;}
+.bottom-block:last-child{border-right:none;flex:2;}
+.bottom-label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:2px;color:#999;text-transform:uppercase;margin-bottom:6px;}
+.sig-line{border-bottom:1px solid #ccc;height:22px;}
+
+/* ACTION BUTTONS */
 .btn-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
-.btn{padding:10px 20px;border:none;background:var(--black);color:#fff;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.btn{padding:10px 22px;border:none;background:#1C1C1C;color:#fff;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
 .btn:hover{background:#333;}
-.btn.secondary{background:#fff;border:2px solid var(--black);color:var(--black);}
-.btn.secondary:hover{background:var(--black);color:#fff;}
+.btn.sec{background:#fff;border:2px solid #1C1C1C;color:#1C1C1C;}
+.btn.sec:hover{background:#1C1C1C;color:#fff;}
 
 /* PRINT */
-@media screen{.print-only{display:none;}}
 @media print{
   @page{size:11in 8.5in landscape;margin:0.3in 0.4in;}
   body{background:#fff!important;}
   .screen{border:none!important;max-width:100%!important;}
-  .header,.nav,.back,.btn-row,.add-row-btn,.del-row-btn,.del-btn,.ledger-add{display:none!important;}
-  .body{padding:0!important;}
-  .schedule-table{font-size:8px;}
-  .schedule-table th{font-size:7px;padding:4px 5px;}
-  .schedule-table td{padding:3px 4px;}
-  .name-input,.role-input{border:none!important;}
-  .time-input,.ampm-select{border:none!important;}
-  .type-select{border:none!important;}
-  .shift-warn{display:none;}
-  .labor-input{border:none!important;}
-  .setup-input{border:none!important;}
-  .ledger-entry input{border:none!important;}
-  tr:nth-child(even) td{background:#fafafa!important;}
-  .schedule-section{overflow:visible!important;}
+  .site-header,.btn-row,.add-row-wrap,.del-row-btn,.status-strip{display:none!important;}
+  .tool-body{padding:0!important;}
+  .sched-outer{overflow:visible!important;}
+  .name-input,.shift-input,.labor-input,.setup-input{border:none!important;background:transparent!important;}
+  tr:nth-child(even) td{background:#fff!important;}
+  .emp-row:nth-child(even) td.hrs-td{background:#fff!important;}
+  .labor-block,.setup-block{background:#fff!important;}
 }
 </style>
 </head>
 <body>
 <div class="screen">
-  <div class="header">
-    <a class="back" href="index.html">< HOME</a>
-    <div class="header-title">Schedule Builder</div>
-    <div class="header-sub">Weekly Department Schedule</div>
+
+  <!-- SITE HEADER -->
+  <div class="site-header">
+    <a class="back" href="index.html">&lt; HOME</a>
+    <div class="site-title">Schedule Builder</div>
+    <div class="site-sub">Weekly Department Schedule</div>
     <div class="nav">
       <a href="daily.html">Store Walk</a>
       <a href="notes.html">Notes</a>
       <a href="reminders.html">Reminders</a>
       <a href="pl-tracker.html">P&amp;L</a>
+      <a href="scheduler.html">Schedule</a>
       <a href="glossary.html">Glossary</a>
     </div>
   </div>
 
-  <div class="body">
+  <div class="tool-body">
 
-    <!-- SETUP -->
+    <!-- SETUP ROW -->
     <div class="setup-row">
-      <div class="setup-field">
-        <label class="setup-label">Store #</label>
-        <input class="setup-input narrow" id="store-num" maxlength="4" placeholder="1975" inputmode="numeric">
+      <div class="setup-block">
+        <span class="setup-label">Store #</span>
+        <input class="setup-input" id="inp-store" maxlength="6" placeholder="####" oninput="saveStore()">
       </div>
-      <div class="setup-field">
-        <label class="setup-label">Department</label>
-        <input class="setup-input wide" id="dept-name" placeholder="GROCERY" oninput="this.value=this.value.toUpperCase()">
+      <div class="setup-block">
+        <span class="setup-label">Department</span>
+        <input class="setup-input" id="inp-dept" placeholder="DEPARTMENT" oninput="this.value=this.value.toUpperCase()">
       </div>
-      <div class="setup-field">
-        <label class="setup-label">Week Of</label>
-        <input class="setup-input med" id="week-start" type="date" onchange="updateWeek()">
+      <div class="setup-block" style="flex:1.5;">
+        <span class="setup-label">Week Of (pick any day)</span>
+        <input class="setup-input" id="inp-week" type="date" onchange="updateWeek()">
+        <span class="week-badge" id="week-badge"></span>
       </div>
-      <div class="setup-field">
-        <label class="setup-label">Manager</label>
-        <input class="setup-input wide" id="mgr-name" placeholder="Name">
-      </div>
-    </div>
-
-    <!-- LABOR CALCULATOR -->
-    <div class="labor-bar">
-      <div class="labor-bar-head">
-        <span>Labor Budget Calculator</span>
-        <span style="font-size:9px;font-weight:400;color:var(--dim);letter-spacing:1px;">Sales × Labor % ÷ Wage = Available Hours</span>
-      </div>
-      <div class="labor-inputs">
-        <div class="labor-field">
-          <label class="labor-label">Sales Projection $</label>
-          <input class="labor-input" id="sales-proj" placeholder="375000" inputmode="numeric" oninput="calcLabor()">
-        </div>
-        <div class="labor-field">
-          <label class="labor-label">Labor %</label>
-          <input class="labor-input" id="labor-pct" placeholder="6.2" style="width:80px;" inputmode="decimal" oninput="calcLabor()">
-        </div>
-        <div class="labor-field">
-          <label class="labor-label">Avg Wage $</label>
-          <input class="labor-input" id="avg-wage" placeholder="25.61" style="width:90px;" inputmode="decimal" oninput="calcLabor()">
-        </div>
-      </div>
-      <div class="labor-result">
-        <div class="labor-stat">
-          <span class="labor-stat-label">Labor Budget $</span>
-          <span class="labor-stat-val" id="labor-budget-val">—</span>
-        </div>
-        <div class="labor-stat">
-          <span class="labor-stat-label">Hours Available</span>
-          <span class="labor-stat-val" id="hours-avail-val">—</span>
-        </div>
-        <div class="labor-stat">
-          <span class="labor-stat-label">Hours Scheduled</span>
-          <span class="labor-stat-val" id="hours-sched-val">0</span>
-        </div>
-        <div class="labor-stat">
-          <span class="labor-stat-label">Variance</span>
-          <span class="labor-stat-val" id="hours-var-val">—</span>
-        </div>
-        <div class="labor-stat">
-          <span class="labor-stat-label">Est. Labor Cost $</span>
-          <span class="labor-stat-val" id="labor-cost-val">—</span>
-        </div>
-      </div>
-      <div class="status-bar" id="status-bar">
-        <span class="status-label">Status:</span>
-        <span class="status-val" id="status-text">Enter labor budget to track hours</span>
+      <div class="setup-block">
+        <span class="setup-label">Manager</span>
+        <input class="setup-input" id="inp-mgr" placeholder="Name">
       </div>
     </div>
 
-    <!-- DAY LEDGER -->
-    <div class="ledger-section">
-      <div class="section-head">
-        <span>Day Ledger — Loads, Orders & Notes</span>
-        <span style="font-size:9px;font-weight:400;color:var(--dim);">Add loads, order cutoffs, ad changes per day</span>
+    <!-- LABOR STRIP -->
+    <div class="labor-strip">
+      <div class="labor-block">
+        <span class="labor-label">Sales Projection $</span>
+        <input class="labor-input" id="l-sales" placeholder="0" inputmode="numeric" oninput="calcLabor()">
       </div>
-      <div class="ledger-grid" id="ledger-grid"></div>
+      <div class="labor-block">
+        <span class="labor-label">Labor %</span>
+        <input class="labor-input" id="l-pct" placeholder="0.0" inputmode="decimal" style="width:80px;" oninput="calcLabor()">
+      </div>
+      <div class="labor-block">
+        <span class="labor-label">Labor Budget $</span>
+        <div class="labor-result dim" id="l-budget">—</div>
+      </div>
+      <div class="labor-block">
+        <span class="labor-label">Avg Wage $</span>
+        <input class="labor-input" id="l-wage" placeholder="0.00" inputmode="decimal" style="width:80px;" oninput="calcLabor()">
+      </div>
+      <div class="labor-block">
+        <span class="labor-label">Hours Available</span>
+        <div class="labor-result dim" id="l-avail">—</div>
+      </div>
+      <div class="labor-block">
+        <span class="labor-label">Hours Scheduled</span>
+        <div class="labor-result" id="l-sched">0</div>
+      </div>
+      <div class="labor-block">
+        <span class="labor-label">Variance</span>
+        <div class="labor-result dim" id="l-var">—</div>
+      </div>
     </div>
+    <div class="status-strip dim" id="status-strip">Enter sales projection and labor % to track hours</div>
 
-    <!-- SCHEDULE GRID -->
-    <div class="schedule-section">
-      <div class="section-head">
-        <span>Schedule</span>
-        <span style="font-size:9px;font-weight:400;color:var(--dim);">Min 6 hrs / Max 8 hrs per shift</span>
-      </div>
-      <table class="schedule-table" id="schedule-table">
-        <thead id="schedule-head"></thead>
-        <tbody id="schedule-body"></tbody>
-        <tfoot id="schedule-foot"></tfoot>
+    <!-- SCHEDULE TABLE -->
+    <div class="sched-outer">
+      <table class="sched-table">
+        <thead id="sched-head"></thead>
+        <tbody id="sched-body"></tbody>
+        <tfoot id="sched-foot"></tfoot>
       </table>
-      <button class="add-row-btn" onclick="addEmployee()">+ Add Employee</button>
+    </div>
+    <div class="add-row-wrap">
+      <button class="add-btn" onclick="addRow()">+ Add Row</button>
+      <span style="font-size:9px;color:#999;font-family:'Oswald',sans-serif;letter-spacing:1px;">Type shift as <strong>5a-130p</strong> or <strong>10p-6a</strong> — type <strong>OFF</strong> for day off</span>
+    </div>
+
+    <!-- BOTTOM STRIP -->
+    <div class="bottom-strip">
+      <div class="bottom-block">
+        <div class="bottom-label">Prepared By</div>
+        <div class="sig-line"></div>
+      </div>
+      <div class="bottom-block">
+        <div class="bottom-label">Approved By</div>
+        <div class="sig-line"></div>
+      </div>
+      <div class="bottom-block">
+        <div class="bottom-label">Date Submitted</div>
+        <div class="sig-line"></div>
+      </div>
+      <div class="bottom-block">
+        <div class="bottom-label">Notes</div>
+        <div class="sig-line"></div>
+      </div>
     </div>
 
     <div class="btn-row">
       <button class="btn" onclick="window.print()">Print / PDF</button>
-      <button class="btn secondary" onclick="clearSchedule()">Clear All</button>
-      <button class="btn secondary" onclick="saveSchedule()">Save</button>
+      <button class="btn sec" onclick="saveSchedule()">Save</button>
+      <button class="btn sec" onclick="clearAll()">Clear</button>
     </div>
 
   </div>
 </div>
 
 <script>
+// ── CONSTANTS ──────────────────────────────────────────────
 var DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var SHORT_DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+var SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-var employees = [];
-var ledgerEntries = {0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
-var weekDates = [];
-var empIdCounter = 0;
+var SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// RETAIL HOLIDAYS
+var weekDates = [];   // Array of 7 Date objects (Mon-Sun)
+var rows = [];        // [{id, name, shifts:[7 strings]}]
+var rowCounter = 0;
+
+// ── HOLIDAYS ───────────────────────────────────────────────
 function getHolidays(year) {
   var h = {};
-  var key = function(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); };
-  // Fixed holidays
-  h[year+'-1-1'] = "New Year's Day";
-  h[year+'-2-14'] = "Valentine's Day";
-  h[year+'-7-4'] = "Independence Day";
-  h[year+'-10-31'] = "Halloween";
-  h[year+'-12-24'] = "Christmas Eve";
-  h[year+'-12-25'] = "Christmas Day";
-  h[year+'-12-31'] = "New Year's Eve";
+  var key = function(m,d){ return year+'-'+m+'-'+d; };
+  // Fixed
+  h[key(1,1)]  = "New Year's Day";
+  h[key(2,14)] = "Valentine's Day";
+  h[key(7,4)]  = "Independence Day";
+  h[key(10,31)]= "Halloween";
+  h[key(12,24)]= "Christmas Eve";
+  h[key(12,25)]= "Christmas Day";
+  h[key(12,31)]= "New Year's Eve";
   // Mother's Day: 2nd Sunday May
-  var md = new Date(year,4,1);
-  var sunCount=0; while(sunCount<2){if(md.getDay()===0)sunCount++;if(sunCount<2)md.setDate(md.getDate()+1);}
-  h[year+'-5-'+md.getDate()] = "Mother's Day";
+  var d=new Date(year,4,1),sc=0;
+  while(sc<2){if(d.getDay()===0)sc++;if(sc<2)d.setDate(d.getDate()+1);}
+  h[key(5,d.getDate())]="Mother's Day";
   // Memorial Day: last Monday May
-  var mem = new Date(year,4,31);
-  while(mem.getDay()!==1)mem.setDate(mem.getDate()-1);
-  h[year+'-5-'+mem.getDate()] = "Memorial Day";
+  d=new Date(year,4,31);
+  while(d.getDay()!==1)d.setDate(d.getDate()-1);
+  h[key(5,d.getDate())]="Memorial Day";
   // Father's Day: 3rd Sunday June
-  var fd = new Date(year,5,1); var fsc=0;
-  while(fsc<3){if(fd.getDay()===0)fsc++;if(fsc<3)fd.setDate(fd.getDate()+1);}
-  h[year+'-6-'+fd.getDate()] = "Father's Day";
+  d=new Date(year,5,1);sc=0;
+  while(sc<3){if(d.getDay()===0)sc++;if(sc<3)d.setDate(d.getDate()+1);}
+  h[key(6,d.getDate())]="Father's Day";
   // Labor Day: 1st Monday Sep
-  var ld = new Date(year,8,1);
-  while(ld.getDay()!==1)ld.setDate(ld.getDate()+1);
-  h[year+'-9-'+ld.getDate()] = "Labor Day";
+  d=new Date(year,8,1);
+  while(d.getDay()!==1)d.setDate(d.getDate()+1);
+  h[key(9,d.getDate())]="Labor Day";
   // Thanksgiving: 4th Thursday Nov
-  var tg = new Date(year,10,1); var tc=0;
-  while(tc<4){if(tg.getDay()===4)tc++;if(tc<4)tg.setDate(tg.getDate()+1);}
-  h[year+'-11-'+tg.getDate()] = "Thanksgiving";
-  // Black Friday: day after Thanksgiving
-  var bf = new Date(tg); bf.setDate(bf.getDate()+1);
-  h[year+'-11-'+bf.getDate()] = "Black Friday";
-  // Easter (approximate - Butcher's algorithm)
-  var a=year%19,b=Math.floor(year/100),c=year%100,d2=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),i=Math.floor((19*a+b-d2-g+15)%30),k=Math.floor(c/4),l=c%4,m=Math.floor((32+2*e+2*k-i-l)%7),n=Math.floor((a+11*i+22*m)/451),em=Math.floor((i+m-7*n+114)/31),ed=((i+m-7*n+114)%31)+1;
-  h[year+'-'+em+'-'+ed] = "Easter";
+  d=new Date(year,10,1);sc=0;
+  while(sc<4){if(d.getDay()===4)sc++;if(sc<4)d.setDate(d.getDate()+1);}
+  h[key(11,d.getDate())]="Thanksgiving";
+  var bf=new Date(d);bf.setDate(bf.getDate()+1);
+  h[key(11,bf.getDate())]="Black Friday";
+  // Easter
+  var a=year%19,b=Math.floor(year/100),c=year%100,d2=Math.floor(b/4),e=b%4,
+      f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+      i=(19*a+b-d2-g+15)%30,k=Math.floor(c/4),l=c%4,
+      m=(32+2*e+2*k-i-l)%7,n=Math.floor((a+11*i+22*m)/451),
+      em=Math.floor((i+m-7*n+114)/31),ed=(i+m-7*n+114)%31+1;
+  h[key(em,ed)]="Easter";
   return h;
 }
 
-function getWeekDates(mondayDate) {
-  var dates = [];
-  for(var i=0;i<7;i++){
-    var d = new Date(mondayDate);
-    d.setDate(d.getDate()+i);
-    dates.push(new Date(d));
-  }
-  return dates;
+function getHolidayKey(date){
+  return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 }
 
-function getMondayOfWeek(date) {
-  var d = new Date(date);
-  var day = d.getDay();
-  var diff = d.getDate() - day + (day===0?-6:1);
-  d.setDate(diff);
-  return d;
+// ── WEEK NUMBER ─────────────────────────────────────────────
+function getWeekNumber(d) {
+  var date = new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  var dayNum = date.getUTCDay()||7;
+  date.setUTCDate(date.getUTCDate()+4-dayNum);
+  var yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+  return Math.ceil((((date-yearStart)/86400000)+1)/7);
 }
 
+// ── WEEK UPDATE ─────────────────────────────────────────────
 function updateWeek() {
-  var val = document.getElementById('week-start').value;
+  var val = document.getElementById('inp-week').value;
   if(!val) return;
-  var d = new Date(val+'T00:00:00');
-  var monday = getMondayOfWeek(d);
-  weekDates = getWeekDates(monday);
-  // Update week-start to monday
-  var y = monday.getFullYear();
-  var m = String(monday.getMonth()+1).padStart(2,'0');
-  var dd = String(monday.getDate()).padStart(2,'0');
-  document.getElementById('week-start').value = y+'-'+m+'-'+dd;
-  renderLedger();
+  var picked = new Date(val+'T00:00:00');
+  var dow = picked.getDay();
+  var diff = picked.getDate() - dow + (dow===0?-6:1);
+  var monday = new Date(picked);
+  monday.setDate(diff);
+  weekDates = [];
+  for(var i=0;i<7;i++){
+    var d = new Date(monday);
+    d.setDate(monday.getDate()+i);
+    weekDates.push(d);
+  }
+  var wn = getWeekNumber(monday);
+  document.getElementById('week-badge').textContent = 'Week ' + wn + ' — ' +
+    SHORT_MONTHS[monday.getMonth()]+' '+monday.getDate()+' – '+
+    SHORT_MONTHS[weekDates[6].getMonth()]+' '+weekDates[6].getDate()+', '+weekDates[6].getFullYear();
   renderHead();
   renderFoot();
 }
 
-// LEDGER
-function renderLedger() {
-  var grid = document.getElementById('ledger-grid');
-  grid.innerHTML = '';
-  var holidays = weekDates.length ? getHolidays(weekDates[0].getFullYear()) : {};
-  for(var i=0;i<7;i++){
-    var date = weekDates[i];
-    var dateStr = date ? date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate() : '';
-    var holiday = dateStr ? holidays[dateStr] : null;
-    var dayDiv = document.createElement('div');
-    dayDiv.className = 'ledger-day';
-    var headStr = '<div class="ledger-day-head">'+DAYS[i]+'</div>';
-    headStr += '<div class="ledger-day-date">'+(date?(MONTHS[date.getMonth()]+' '+date.getDate()):'')+'</div>';
-    if(holiday) headStr += '<div class="ledger-holiday">★ '+holiday+'</div>';
-    dayDiv.innerHTML = headStr;
-    // Existing entries
-    var entries = ledgerEntries[i] || [];
-    entries.forEach(function(entry, idx){
-      var row = document.createElement('div');
-      row.className = 'ledger-entry';
-      row.innerHTML = '<input type="text" placeholder="Note or time..." value="'+escHtml(entry)+'" onchange="updateLedger('+i+','+idx+',this.value)">'+
-        '<button class="del-btn" onclick="deleteLedger('+i+','+idx+')">✕</button>';
-      dayDiv.appendChild(row);
-    });
-    var addBtn = document.createElement('button');
-    addBtn.className = 'ledger-add';
-    addBtn.textContent = '+ Add';
-    addBtn.onclick = (function(dayIdx){ return function(){ addLedger(dayIdx); }; })(i);
-    dayDiv.appendChild(addBtn);
-    grid.appendChild(dayDiv);
-  }
+// ── SHIFT PARSING ───────────────────────────────────────────
+function parseShift(raw) {
+  if(!raw) return null;
+  var s = raw.trim().toUpperCase();
+  if(s===''||s==='OFF') return {off:true, hrs:0};
+  // Match patterns like 5a-130p, 930a-6p, 10p-6a, 11p-730a
+  var m = s.match(/^(\d{1,4})(A|P)\s*[-–]\s*(\d{1,4})(A|P)$/);
+  if(!m) return null;
+  var parseT = function(t,ap){
+    var n=parseInt(t),hr,min;
+    if(t.length<=2){hr=n;min=0;}
+    else{hr=parseInt(t.slice(0,-2));min=parseInt(t.slice(-2));}
+    if(ap==='P'&&hr!==12)hr+=12;
+    if(ap==='A'&&hr===12)hr=0;
+    return hr*60+min;
+  };
+  var start=parseT(m[1],m[2]),end=parseT(m[3],m[4]);
+  var diff=end-start;
+  if(diff<=0)diff+=24*60; // overnight
+  var totalHrs=diff/60;
+  var paidHrs=totalHrs>0.5?totalHrs-0.5:totalHrs; // deduct 30min lunch
+  return {off:false, hrs:Math.round(paidHrs*10)/10, raw:s, warn: paidHrs<6||paidHrs>8};
 }
 
-function addLedger(dayIdx) {
-  if(!ledgerEntries[dayIdx]) ledgerEntries[dayIdx] = [];
-  ledgerEntries[dayIdx].push('');
-  renderLedger();
-}
-function updateLedger(dayIdx, entryIdx, val) {
-  ledgerEntries[dayIdx][entryIdx] = val;
-}
-function deleteLedger(dayIdx, entryIdx) {
-  ledgerEntries[dayIdx].splice(entryIdx,1);
-  renderLedger();
-}
-
-// SCHEDULE HEAD
-function renderHead() {
-  var head = document.getElementById('schedule-head');
-  var row = '<tr><th class="left">Name</th><th class="role-th">Role / Task</th><th style="min-width:55px;">Type</th>';
-  for(var i=0;i<7;i++){
-    var date = weekDates[i];
-    var dateStr = date ? ' '+date.getDate() : '';
-    row += '<th class="day-th">'+SHORT_DAYS[i]+dateStr+'</th>';
-  }
-  row += '<th class="hrs-th">HRS</th><th class="status-th">STATUS</th><th style="min-width:30px;background:#333;"></th></tr>';
-  head.innerHTML = row;
+function fmtShift(raw) {
+  var s = raw.trim().toUpperCase();
+  if(!s||s==='OFF') return 'OFF';
+  // Normalize display: add dash
+  var m = s.match(/^(\d{1,4})(A|P)\s*[-–]\s*(\d{1,4})(A|P)$/);
+  if(!m) return s;
+  var fmt=function(t,ap){
+    var n=t;
+    if(n.length>2){n=n.slice(0,-2)+':'+n.slice(-2);}
+    return n+(ap==='A'?'a':'p');
+  };
+  return fmt(m[1],m[2])+' – '+fmt(m[3],m[4]);
 }
 
-// EMPLOYEE ROWS
-function addEmployee() {
-  var id = ++empIdCounter;
-  employees.push({
-    id:id, name:'', role:'', type:'FT',
-    shifts:[
-      {off:false,start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:false,start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:false,start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:false,start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:false,start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:true, start:'',startAmPm:'AM',end:'',endAmPm:'PM'},
-      {off:true, start:'',startAmPm:'AM',end:'',endAmPm:'PM'}
-    ]
+function calcRowHours(shifts) {
+  var total=0;
+  shifts.forEach(function(s){
+    var p=parseShift(s);
+    if(p&&!p.off)total+=p.hrs;
   });
-  renderBody();
-  updateTotals();
+  return Math.round(total*10)/10;
 }
 
+// ── RENDER HEAD ─────────────────────────────────────────────
+function renderHead() {
+  var holidays = weekDates.length ? getHolidays(weekDates[0].getFullYear()) : {};
+  var html='<tr>';
+  html+='<th class="name-th">Name</th>';
+  for(var i=0;i<7;i++){
+    var d=weekDates[i];
+    var dateStr=d?SHORT_MONTHS[d.getMonth()]+' '+d.getDate():'';
+    var hkey=d?getHolidayKey(d):'';
+    var holiday=holidays[hkey]||'';
+    html+='<th class="day-th">'+DAYS[i];
+    html+='<span class="day-date">'+dateStr+'</span>';
+    if(holiday)html+='<span class="holiday-flag">★ '+holiday+'</span>';
+    html+='</th>';
+  }
+  html+='<th class="hrs-th">HRS</th>';
+  html+='<th style="width:24px;border:none;"></th>';
+  html+='</tr>';
+  document.getElementById('sched-head').innerHTML=html;
+}
+
+// ── RENDER BODY ─────────────────────────────────────────────
 function renderBody() {
-  var tbody = document.getElementById('schedule-body');
-  tbody.innerHTML = '';
-  employees.forEach(function(emp) {
-    var tr = document.createElement('tr');
-    var html = '<td class="name-td"><input class="name-input" placeholder="Full Name" value="'+escHtml(emp.name)+'" onchange="updateEmp('+emp.id+',\'name\',this.value)"></td>';
-    html += '<td><input class="role-input" placeholder="Role or task" value="'+escHtml(emp.role)+'" onchange="updateEmp('+emp.id+',\'role\',this.value)"></td>';
-    html += '<td><select class="type-select" onchange="updateEmp('+emp.id+',\'type\',this.value)">'+
-      '<option value="FT"'+(emp.type==='FT'?' selected':'')+'>FT</option>'+
-      '<option value="PT"'+(emp.type==='PT'?' selected':'')+'>PT</option>'+
-      '</select></td>';
+  var tbody=document.getElementById('sched-body');
+  tbody.innerHTML='';
+  rows.forEach(function(row,idx){
+    var tr=document.createElement('tr');
+    tr.className='emp-row';
+    var hrs=calcRowHours(row.shifts);
+    // Name cell
+    var nameTd='<td class="name-td"><div class="name-wrap">'+
+      '<span class="row-num">'+(idx+1)+'</span>'+
+      '<input class="name-input" placeholder="Employee name" value="'+esc(row.name)+'" '+
+      'onchange="updateName('+row.id+',this.value)">'+
+      '</div></td>';
     // Shift cells
+    var shiftTds='';
     for(var d=0;d<7;d++){
-      var s = emp.shifts[d];
-      var warn = getShiftWarning(s);
-      html += '<td class="shift-cell">'+
-        '<div class="shift-wrap">'+
-        (s.off ? '<span style="color:var(--dim);font-size:9px;font-style:italic;">OFF</span>' :
-          '<div class="time-row">'+
-          '<input class="time-input" placeholder="6:00" value="'+escHtml(s.start)+'" onchange="updateShift('+emp.id+','+d+',\'start\',this.value)" title="Start time">'+
-          '<select class="ampm-select" onchange="updateShift('+emp.id+','+d+',\'startAmPm\',this.value)">'+
-          '<option value="AM"'+(s.startAmPm==='AM'?' selected':'')+'>AM</option>'+
-          '<option value="PM"'+(s.startAmPm==='PM'?' selected':'')+'>PM</option>'+
-          '</select>'+
-          '<span style="color:var(--dim);font-size:8px;margin:0 2px;">—</span>'+
-          '<input class="time-input" placeholder="2:00" value="'+escHtml(s.end)+'" onchange="updateShift('+emp.id+','+d+',\'end\',this.value)" title="End time">'+
-          '<select class="ampm-select" onchange="updateShift('+emp.id+','+d+',\'endAmPm\',this.value)">'+
-          '<option value="AM"'+(s.endAmPm==='AM'?' selected':'')+'>AM</option>'+
-          '<option value="PM"'+(s.endAmPm==='PM'?' selected':'')+'>PM</option>'+
-          '</select>'+
-          '</div>'
-        )+
-        '<div class="off-toggle">'+
-        '<input type="checkbox" id="off-'+emp.id+'-'+d+'" '+(s.off?'checked':'')+' onchange="toggleOff('+emp.id+','+d+',this.checked)">'+
-        '<label for="off-'+emp.id+'-'+d+'">OFF</label>'+
-        '</div>'+
-        (warn?'<div class="shift-warn">'+warn+'</div>':'')+
-        '</div></td>';
+      var raw=row.shifts[d]||'';
+      var p=parseShift(raw);
+      var cls='shift-input';
+      if(!raw||raw.toUpperCase()==='OFF')cls+=' off-val';
+      else if(p&&p.warn)cls+=' warn-val';
+      shiftTds+='<td><input class="'+cls+'" value="'+esc(raw)+'" '+
+        'onchange="updateShift('+row.id+','+d+',this.value)" '+
+        'onblur="formatShift(this)" '+
+        'placeholder=""></td>';
     }
-    var hrs = calcEmployeeHours(emp);
-    var target = emp.type==='FT'?40:20;
-    var statusHtml = getStatusBadge(hrs, target, emp.type);
-    html += '<td class="hrs-td">'+hrs+'</td>';
-    html += '<td class="status-td">'+statusHtml+'</td>';
-    html += '<td><button class="del-row-btn" onclick="removeEmployee('+emp.id+')">✕</button></td>';
-    tr.innerHTML = html;
+    // Hours + delete
+    var hrsTd='<td class="hrs-td">'+hrs+'</td>';
+    var delTd='<td class="del-td"><button class="del-row-btn" onclick="removeRow('+row.id+')" title="Remove row">×</button></td>';
+    tr.innerHTML=nameTd+shiftTds+hrsTd+delTd;
     tbody.appendChild(tr);
   });
 }
 
+// ── RENDER FOOT ─────────────────────────────────────────────
 function renderFoot() {
-  var tfoot = document.getElementById('schedule-foot');
-  var totalHrs = employees.reduce(function(sum,emp){ return sum+calcEmployeeHours(emp); },0);
-  var row = '<tr class="total-row"><td colspan="3">TOTAL SCHEDULED</td>';
-  // Day totals
+  var totalHrs=rows.reduce(function(s,r){return s+calcRowHours(r.shifts);},0);
+  var dayTotals=[];
   for(var d=0;d<7;d++){
-    var dayHrs = 0;
-    employees.forEach(function(emp){ if(!emp.shifts[d].off) dayHrs += calcShiftHours(emp.shifts[d]); });
-    row += '<td style="text-align:center;font-size:10px;">'+dayHrs+'h</td>';
+    var dt=rows.reduce(function(s,r){
+      var p=parseShift(r.shifts[d]);
+      return s+(p&&!p.off?p.hrs:0);
+    },0);
+    dayTotals.push(Math.round(dt*10)/10||'—');
   }
-  row += '<td class="hrs-td">'+totalHrs+'</td><td colspan="2"></td></tr>';
-  tfoot.innerHTML = row;
-}
-
-function updateEmp(id, field, val) {
-  var emp = employees.find(function(e){return e.id===id;});
-  if(emp) emp[field]=val;
-  updateTotals();
-}
-function updateShift(id, dayIdx, field, val) {
-  var emp = employees.find(function(e){return e.id===id;});
-  if(emp){ emp.shifts[dayIdx][field]=val; }
-  renderBody();
-  updateTotals();
-}
-function toggleOff(id, dayIdx, isOff) {
-  var emp = employees.find(function(e){return e.id===id;});
-  if(emp){ emp.shifts[dayIdx].off=isOff; }
-  renderBody();
-  updateTotals();
-}
-function removeEmployee(id) {
-  employees = employees.filter(function(e){return e.id!==id;});
-  renderBody();
-  updateTotals();
-}
-
-function parseTime(timeStr, ampm) {
-  if(!timeStr) return null;
-  var parts = timeStr.replace(/[^\d:]/g,'').split(':');
-  var hr = parseInt(parts[0])||0;
-  var min = parseInt(parts[1])||0;
-  if(ampm==='PM' && hr!==12) hr+=12;
-  if(ampm==='AM' && hr===12) hr=0;
-  return hr*60+min;
-}
-
-function calcShiftHours(shift) {
-  if(shift.off) return 0;
-  var start = parseTime(shift.start, shift.startAmPm);
-  var end = parseTime(shift.end, shift.endAmPm);
-  if(start===null||end===null) return 0;
-  var diff = end-start;
-  if(diff<0) diff+=24*60; // overnight
-  return Math.round((diff/60)*10)/10;
-}
-
-function getShiftWarning(shift) {
-  if(shift.off) return '';
-  var hrs = calcShiftHours(shift);
-  if(hrs===0) return '';
-  if(hrs<6) return '< 6 HRS';
-  if(hrs>8) return '> 8 HRS';
-  return '';
-}
-
-function calcEmployeeHours(emp) {
-  var total = 0;
-  emp.shifts.forEach(function(s){ total+=calcShiftHours(s); });
-  return Math.round(total*10)/10;
-}
-
-function getStatusBadge(hrs, target, type) {
-  if(hrs===0) return '<span class="status-badge badge-under">—</span>';
-  var min = 20;
-  var max = type==='FT'?40:32;
-  if(hrs<min) return '<span class="status-badge badge-low">LOW '+hrs+'h</span>';
-  if(hrs>max) return '<span class="status-badge badge-over">OVER '+hrs+'h</span>';
-  if(hrs>=target) return '<span class="status-badge badge-ok">✓ '+hrs+'h</span>';
-  return '<span class="status-badge badge-under">'+hrs+'h</span>';
-}
-
-function updateTotals() {
-  var totalHrs = employees.reduce(function(sum,emp){ return sum+calcEmployeeHours(emp); },0);
-  document.getElementById('hours-sched-val').textContent = totalHrs;
-  var avail = parseFloat(document.getElementById('hours-avail-val').textContent) || 0;
-  var wage = parseFloat(document.getElementById('avg-wage').value) || 0;
-  if(wage && totalHrs) {
-    document.getElementById('labor-cost-val').textContent = '$'+(totalHrs*wage).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  }
-  if(avail) {
-    var variance = totalHrs-avail;
-    var varEl = document.getElementById('hours-var-val');
-    varEl.textContent = (variance>=0?'+':'')+Math.round(variance*10)/10;
-    varEl.style.color = variance>0?'var(--red)':variance<-10?'var(--yellow)':'var(--green)';
-    var bar = document.getElementById('status-bar');
-    var txt = document.getElementById('status-text');
-    bar.className = 'status-bar';
+  var html='<tr class="totals-row">';
+  html+='<td class="name-td">Total Hours</td>';
+  dayTotals.forEach(function(v){html+='<td>'+v+'</td>';});
+  html+='<td class="hrs-td">'+totalHrs+'</td>';
+  html+='<td style="border:none;"></td>';
+  html+='</tr>';
+  document.getElementById('sched-foot').innerHTML=html;
+  // Update labor display
+  document.getElementById('l-sched').textContent=totalHrs;
+  var avail=parseFloat(document.getElementById('l-avail').textContent)||0;
+  var wage=parseFloat(document.getElementById('l-wage').value)||0;
+  if(avail){
+    var variance=totalHrs-avail;
+    var varEl=document.getElementById('l-var');
+    varEl.textContent=(variance>=0?'+':'')+Math.round(variance*10)/10+' hrs';
+    varEl.className='labor-result '+(variance>10?'bad':variance<-10?'dim':'good');
+    var strip=document.getElementById('status-strip');
     if(variance>10){
-      bar.classList.add('status-red');
-      txt.textContent = 'OVER BUDGET by '+(Math.round(variance*10)/10)+' hrs — review schedule';
+      strip.className='status-strip bad';
+      strip.textContent='▲ OVER BUDGET by '+Math.round(variance*10)/10+' hrs — review schedule';
     } else if(variance>0){
-      bar.classList.add('status-yellow');
-      txt.textContent = 'Slightly over by '+(Math.round(variance*10)/10)+' hrs';
+      strip.className='status-strip warn';
+      strip.textContent='▲ Slightly over by '+Math.round(variance*10)/10+' hrs';
     } else if(avail-totalHrs>20){
-      bar.classList.add('status-yellow');
-      txt.textContent = (Math.round((avail-totalHrs)*10)/10)+' hrs remaining to schedule';
+      strip.className='status-strip warn';
+      strip.textContent='▽ '+(Math.round((avail-totalHrs)*10)/10)+' hrs remaining to schedule';
     } else {
-      bar.classList.add('status-green');
-      txt.textContent = 'ON TRACK — within labor budget';
+      strip.className='status-strip good';
+      strip.textContent='✓ ON TRACK — within labor budget';
     }
   }
+}
+
+// ── ROW OPERATIONS ──────────────────────────────────────────
+function addRow() {
+  rows.push({id:++rowCounter, name:'', shifts:['','','','','','','']});
+  renderBody();
+  renderFoot();
+}
+function removeRow(id) {
+  rows=rows.filter(function(r){return r.id!==id;});
+  renderBody();
+  renderFoot();
+}
+function updateName(id,val) {
+  var r=rows.find(function(r){return r.id===id;});
+  if(r)r.name=val;
+  renderFoot();
+}
+function updateShift(id,day,val) {
+  var r=rows.find(function(r){return r.id===id;});
+  if(r){r.shifts[day]=val;}
+  renderBody();
+  renderFoot();
+}
+function formatShift(input) {
+  var raw=input.value.trim();
+  if(!raw)return;
+  var p=parseShift(raw);
+  if(p&&!p.off&&p.raw){
+    input.value=fmtShift(p.raw);
+  } else if(!raw||raw.toUpperCase()==='OFF'){
+    input.value='OFF';
+  }
+}
+
+// ── LABOR CALC ──────────────────────────────────────────────
+function calcLabor() {
+  var sales=parseFloat(document.getElementById('l-sales').value.replace(/,/g,''))||0;
+  var pct=parseFloat(document.getElementById('l-pct').value)||0;
+  var wage=parseFloat(document.getElementById('l-wage').value)||0;
+  var budget=sales*pct/100;
+  var hours=wage?budget/wage:0;
+  var budgetEl=document.getElementById('l-budget');
+  var availEl=document.getElementById('l-avail');
+  if(budget){
+    budgetEl.textContent='$'+Math.round(budget).toLocaleString('en-US');
+    budgetEl.className='labor-result';
+  } else {
+    budgetEl.textContent='—';
+    budgetEl.className='labor-result dim';
+  }
+  if(hours){
+    availEl.textContent=Math.round(hours)+' hrs';
+    availEl.className='labor-result';
+  } else {
+    availEl.textContent='—';
+    availEl.className='labor-result dim';
+  }
   renderFoot();
 }
 
-function calcLabor() {
-  var sales = parseFloat(document.getElementById('sales-proj').value.replace(/,/g,'')) || 0;
-  var pct = parseFloat(document.getElementById('labor-pct').value) || 0;
-  var wage = parseFloat(document.getElementById('avg-wage').value) || 0;
-  var budget = sales * pct/100;
-  var hours = wage ? budget/wage : 0;
-  document.getElementById('labor-budget-val').textContent = budget ? '$'+Math.round(budget).toLocaleString('en-US') : '—';
-  document.getElementById('hours-avail-val').textContent = hours ? Math.round(hours*10)/10 : '—';
-  updateTotals();
-}
-
+// ── SAVE / LOAD ─────────────────────────────────────────────
 function saveSchedule() {
-  var data = {
-    store: document.getElementById('store-num').value,
-    dept: document.getElementById('dept-name').value,
-    week: document.getElementById('week-start').value,
-    mgr: document.getElementById('mgr-name').value,
-    salesProj: document.getElementById('sales-proj').value,
-    laborPct: document.getElementById('labor-pct').value,
-    avgWage: document.getElementById('avg-wage').value,
-    employees: employees,
-    ledger: ledgerEntries
+  var key='schedule_'+(document.getElementById('inp-dept').value||'dept')+'_'+(document.getElementById('inp-week').value||'week');
+  var data={
+    store:document.getElementById('inp-store').value,
+    dept:document.getElementById('inp-dept').value,
+    week:document.getElementById('inp-week').value,
+    mgr:document.getElementById('inp-mgr').value,
+    sales:document.getElementById('l-sales').value,
+    pct:document.getElementById('l-pct').value,
+    wage:document.getElementById('l-wage').value,
+    rows:rows
   };
-  localStorage.setItem('schedule_'+data.dept+'_'+data.week, JSON.stringify(data));
+  localStorage.setItem(key,JSON.stringify(data));
   alert('Saved.');
 }
-
-function clearSchedule() {
-  if(!confirm('Clear all employees and entries?')) return;
-  employees = [];
-  ledgerEntries = {0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
+function saveStore(){
+  localStorage.setItem('store_num',document.getElementById('inp-store').value.replace(/\D/g,'').slice(0,4));
+}
+function clearAll(){
+  if(!confirm('Clear all rows and fields?'))return;
+  rows=[];
+  document.getElementById('inp-dept').value='';
+  document.getElementById('inp-mgr').value='';
+  document.getElementById('l-sales').value='';
+  document.getElementById('l-pct').value='';
+  document.getElementById('l-wage').value='';
   renderBody();
-  renderLedger();
-  updateTotals();
+  renderFoot();
+  calcLabor();
 }
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function escHtml(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// INIT
+// ── INIT ────────────────────────────────────────────────────
 (function(){
   // Set week to current Monday
-  var today = new Date();
-  var monday = getMondayOfWeek(today);
-  weekDates = getWeekDates(monday);
-  var y = monday.getFullYear();
-  var m = String(monday.getMonth()+1).padStart(2,'0');
-  var d = String(monday.getDate()).padStart(2,'0');
-  document.getElementById('week-start').value = y+'-'+m+'-'+d;
-  // Load store num
-  var sn = localStorage.getItem('store_num');
-  if(sn) document.getElementById('store-num').value = sn;
-  renderLedger();
-  renderHead();
-  renderFoot();
+  var today=new Date();
+  var dow=today.getDay();
+  var diff=today.getDate()-dow+(dow===0?-6:1);
+  var monday=new Date(today);
+  monday.setDate(diff);
+  var y=monday.getFullYear();
+  var m=String(monday.getMonth()+1).padStart(2,'0');
+  var d=String(monday.getDate()).padStart(2,'0');
+  document.getElementById('inp-week').value=y+'-'+m+'-'+d;
+  var sn=localStorage.getItem('store_num');
+  if(sn)document.getElementById('inp-store').value=sn;
+  // Start with 6 blank rows
+  for(var i=0;i<6;i++)addRow();
+  updateWeek();
 })();
 </script>
 </body>
